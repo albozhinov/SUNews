@@ -1,6 +1,8 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using SUNews.Data.Context;
+using SUNews.Services.Contracts;
+using SUNews.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -12,6 +14,12 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<IdentityUser>(options => options.SignIn.RequireConfirmedAccount = true)
     .AddEntityFrameworkStores<SUNewsDbContext>();
+
+builder.Services.AddScoped<IArticleService, ArticleService>();
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<ICommentService, CommentService>();
+builder.Services.AddScoped<IValidatorService, ValidatorService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
