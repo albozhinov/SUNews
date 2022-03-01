@@ -6,15 +6,15 @@
 
     public class Article
     {
-        public int Id { get; set; }
+        public int Id { get; init; }
         
         [Required]
         [StringLength(ArticleContentMaxLength, MinimumLength = ArticleContentMinLength)]
-        public string Content { get; set; }
+        public string Content { get; init; }
 
         [Required]
         [StringLength(ArticleTitleMaxLength, MinimumLength = ArticleTitleMinLength)]
-        public string Title { get; set; }
+        public string Title { get; init; }
 
         public int LikeCount { get; set; }
 
@@ -23,8 +23,10 @@
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public int AuthorId { get; set; }
+        public int AuthorId { get; init; }
 
-        public Author Author { get; set; }
+        public Author Author { get; init; }
+
+        public ICollection<ArticleCategory> Categories { get; set; } = new List<ArticleCategory>();
     }
 }
