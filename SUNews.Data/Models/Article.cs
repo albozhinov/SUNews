@@ -16,7 +16,9 @@
         [StringLength(ArticleTitleMaxLength, MinimumLength = ArticleTitleMinLength)]
         public string Title { get; init; }
 
-        public int LikeCount { get; set; }
+        public string ImageUrl { get; set; }
+
+        public int? LikeCount { get; set; }
 
         [Range(ArticleRatingMin, ArticleRatingMax)]
         public double Rating { get; set; }
