@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.32126.317
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SUNews.Web", "SUNews\SUNews.Web.csproj", "{87A18A99-C616-4EB8-B378-C4C0FA3D2859}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SUNews", "SUNews\SUNews.csproj", "{87A18A99-C616-4EB8-B378-C4C0FA3D2859}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SUNews.Data", "SUNews.Data\SUNews.Data.csproj", "{F6FC0547-AEF2-4032-A3D1-7BA30948D96B}"
 EndProject
