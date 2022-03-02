@@ -16,12 +16,14 @@
         [StringLength(ArticleTitleMaxLength, MinimumLength = ArticleTitleMinLength)]
         public string Title { get; init; }
 
+        [Required]
+        [StringLength(ArticleImageUrlMaxLength)]
         public string ImageUrl { get; set; }
 
         public int? LikeCount { get; set; }
 
         [Range(ArticleRatingMin, ArticleRatingMax)]
-        public double Rating { get; set; }
+        public double? Rating { get; set; }
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
