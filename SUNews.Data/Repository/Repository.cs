@@ -6,8 +6,7 @@
     using System.Linq;
     using System.Threading.Tasks;
 
-    public class Repository<T> : IRepository<T> 
-        where T : class
+    public class Repository : IRepository
     {
 		private readonly SUNewsDbContext context;
 
@@ -16,12 +15,12 @@
 			this.context = context;
 		}
 
-		public IQueryable<T> All()
+		public IQueryable<T> All<T>() where T : class
 		{
 			return context.Set<T>();
 		}
 
-		public async Task AddAsync(T entity)
+		public async Task AddAsync<T>(T entity) where T : class
 		{
 			EntityEntry entry = context.Entry(entity);
 
@@ -35,7 +34,7 @@
 			}
 		}
 
-		public void Update(T entity)
+		public void Update<T>(T entity) where T : class
 		{
 			EntityEntry entry = context.Entry(entity);
 			if (entry.State == EntityState.Detached)
@@ -51,7 +50,7 @@
 			await context.SaveChangesAsync();
 		}
 
-		void IRepository<T>.Add(T entity)
+		void IRepository.Add<T>(T entity) where T : class
 		{
 			EntityEntry entry = context.Entry(entity);
 
@@ -65,7 +64,7 @@
 			}
 		}
 
-		void IRepository<T>.Save()
+		void IRepository.Save()
 		{
 			context.SaveChanges();
 		}
