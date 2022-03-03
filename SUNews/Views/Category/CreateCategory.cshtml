@@ -1,0 +1,18 @@
+﻿@model CreateCategoryViewModel
+
+<h3>Create Category</h3>
+<form asp-area="" asp-controller="Category" asp-action="CreateCategory" method="post">
+    <div class="mb-3">
+    <label asp-for="CategoryName"></label><br />
+    <input asp-for="CategoryName" class="form-control" placeholder="Write category name...">
+    <span asp-validation-for="CategoryName" class="text-danger"></span>
+    </div>
+    <div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </div>
+</form>
+
+@section scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+<partial name="_ValidationScriptsPartial" />
+}
