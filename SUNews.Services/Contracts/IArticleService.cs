@@ -5,6 +5,6 @@
 
     public interface IArticleService
     {
-        Task<Article> CreateArticle();
+        Task<Article> CreateArticle(string title, string content, string imageUrl, string authorName, ICollection<string> categories);
     }
 }
