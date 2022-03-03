@@ -2,9 +2,14 @@
 
 namespace SUNews.Web.Controllers
 {
-    public class Author : Controller
+    public class CategoryController : Controller
     {
         public IActionResult Index()
+        {
+            return View();
+        }
+
+        public IActionResult CreateCategory()
         {
             return View();
         }

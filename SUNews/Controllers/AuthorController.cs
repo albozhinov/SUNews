@@ -2,7 +2,7 @@
 
 namespace SUNews.Web.Controllers
 {
-    public class Category : Controller
+    public class AuthorController : Controller
     {
         public IActionResult Index()
         {

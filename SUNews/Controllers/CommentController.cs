@@ -2,7 +2,7 @@
 
 namespace SUNews.Web.Controllers
 {
-    public class Comment : Controller
+    public class CommentController : Controller
     {
         public IActionResult Index()
         {
