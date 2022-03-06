@@ -1,5 +1,6 @@
 ﻿namespace SUNews.Web.Controllers
 {
+    using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using SUNews.Models;
@@ -8,10 +9,12 @@
     public class ArticleController : Controller
     {
         private readonly IArticleService articleService;
+        private readonly ICategoryService categoryService;
 
-        public ArticleController(IArticleService _articleService)
+        public ArticleController(IArticleService _articleService, ICategoryService _categoryService)
         {
             this.articleService = _articleService;
+            this.categoryService = _categoryService;
         }
 
 
@@ -21,21 +24,23 @@
         }
 
 
-        public IActionResult CreateArticle()
+        public async Task<IActionResult> CreateArticle()
         {
+            var allCategories = await categoryService.GetAllCategories();
+
+            var selectListItems = allCategories
+                                    .Select(c => new SelectListItem { Text = c.Name, })
+                                    .ToList();
+
             var model = new CreateArticleViewModel()
             {
-                CategoriesList = new List<SelectListItem>
-                {
-                    new SelectListItem{ Text = "War"},
-                    new SelectListItem{ Text = "Sport"},
-                    new SelectListItem{ Text = "Covid-19"},
-                }
+                CategoriesList = selectListItems
             };            
 
             return View(model);
         }
 
+        //[Authorize(Roles = "Admin")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateArticle(CreateArticleViewModel model)
