@@ -17,7 +17,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SUNews.Data\SUNews.Data.csproj" />
     <ProjectReference Include="..\SUNews.Services\SUNews.Services.csproj" />
   </ItemGroup>
 
