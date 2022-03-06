@@ -24,8 +24,8 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("AuthorUser", b =>
                 {
-                    b.Property<int>("FavoriteAuthorsId")
-                        .HasColumnType("int");
+                    b.Property<string>("FavoriteAuthorsId")
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("FollowersId")
                         .HasColumnType("nvarchar(450)");
@@ -176,14 +176,13 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.Article", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
+                    b.Property<string>("Id")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<int>("AuthorId")
-                        .HasColumnType("int");
+                    b.Property<string>("AuthorId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Content")
                         .IsRequired()
@@ -220,11 +219,11 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.ArticleCategory", b =>
                 {
-                    b.Property<int>("CategoryId")
-                        .HasColumnType("int");
+                    b.Property<string>("CategoryId")
+                        .HasColumnType("nvarchar(40)");
 
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
+                    b.Property<string>("ArticleId")
+                        .HasColumnType("nvarchar(40)");
 
                     b.HasKey("CategoryId", "ArticleId");
 
@@ -235,11 +234,9 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.Author", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -253,11 +250,9 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.Category", b =>
                 {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
+                    b.Property<string>("Id")
+                        .HasMaxLength(40)
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -277,8 +272,9 @@ namespace SUNews.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<int>("ArticleId")
-                        .HasColumnType("int");
+                    b.Property<string>("ArticleId")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(40)");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
