@@ -4,7 +4,7 @@
 <form asp-area="" asp-controller="Category" asp-action="CreateCategory" method="post">
     <div class="mb-3">
     <label asp-for="CategoryName"></label><br />
-    <input asp-for="CategoryName" class="form-control" placeholder="Write category name...">
+    <input asp-for="CategoryName" type="text" class="form-control" placeholder="Please write category name...">
     <span asp-validation-for="CategoryName" class="text-danger"></span>
     </div>
     <div>
