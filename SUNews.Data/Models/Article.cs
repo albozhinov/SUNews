@@ -6,7 +6,8 @@
 
     public class Article
     {
-        public int Id { get; init; }
+        [MaxLength(IdMaxLength)]
+        public string Id { get; init; } = Guid.NewGuid().ToString();
         
         [Required]
         [StringLength(ArticleContentMaxLength, MinimumLength = ArticleContentMinLength)]
@@ -27,7 +28,7 @@
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public int AuthorId { get; init; }
+        public string AuthorId { get; init; }
 
         public Author Author { get; init; }
 

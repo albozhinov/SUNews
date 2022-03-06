@@ -6,7 +6,8 @@
 
     public class Category
     {
-        public int Id { get; init; }
+        [MaxLength(IdMaxLength)]
+        public string Id { get; init; } = Guid.NewGuid().ToString();
 
         [Required]
         [StringLength(CategoryNameMaxLength, MinimumLength = CategoryNameMinLength)]

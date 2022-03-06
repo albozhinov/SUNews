@@ -2,11 +2,11 @@
 {
     public class ArticleCategory
     {
-        public int ArticleId { get; set; }
+        public string ArticleId { get; set; }
 
         public Article Article { get; set; }
 
-        public int CategoryId { get; set; }
+        public string CategoryId { get; set; }
 
         public Category Category { get; set; }
     }

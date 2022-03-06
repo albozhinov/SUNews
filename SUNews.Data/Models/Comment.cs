@@ -12,7 +12,7 @@
         [StringLength(CommentTextMaxLength, MinimumLength = CommentTextMinLength)]
         public string Text { get; init; }
 
-        public int ArticleId { get; set; }
+        public string ArticleId { get; set; }
 
         public Article Article { get; set; }
 
