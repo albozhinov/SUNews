@@ -1,5 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using SUNews.Models;
+using SUNews.Services.Constants;
 using System.Diagnostics;
 
 namespace SUNews.Controllers
@@ -14,6 +16,13 @@ namespace SUNews.Controllers
         }
 
         public IActionResult Index()
+        {
+            ViewData[MessageConstant.ErrorMessage] = "Something was broken!";
+
+            return View();
+        }
+
+        public IActionResult Login()
         {
             return View();
         }
