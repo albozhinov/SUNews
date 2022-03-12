@@ -7,11 +7,11 @@
     public class Category
     {
         [MaxLength(IdMaxLength)]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required]
         [StringLength(CategoryNameMaxLength, MinimumLength = CategoryNameMinLength)]
-        public string Name { get; init; }
+        public String Name { get; init; }
 
         public ICollection<ArticleCategory> Articles { get; set; } = new List<ArticleCategory>();
     }

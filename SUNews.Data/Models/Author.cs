@@ -7,7 +7,7 @@
     public class Author
     {
         [MaxLength(IdMaxLength)]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required]
         [StringLength(AuthorNameMaxLength, MinimumLength = AuthorNameMinLength)]

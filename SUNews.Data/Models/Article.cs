@@ -7,7 +7,7 @@
     public class Article
     {
         [MaxLength(IdMaxLength)]
-        public string Id { get; init; } = Guid.NewGuid().ToString();
+        public Guid Id { get; init; } = Guid.NewGuid();
         
         [Required]
         [StringLength(ArticleContentMaxLength, MinimumLength = ArticleContentMinLength)]
@@ -28,9 +28,11 @@
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 
-        public string AuthorId { get; init; }
+        public Guid AuthorId { get; init; }
 
         public Author Author { get; init; }
+
+        public DateTime DateOfCreation { get; init; } = DateTime.Now.Date;
 
         public ICollection<ArticleCategory> Categories { get; set; } = new List<ArticleCategory>();
     }

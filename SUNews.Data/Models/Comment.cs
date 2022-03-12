@@ -12,7 +12,7 @@
         [StringLength(CommentTextMaxLength, MinimumLength = CommentTextMinLength)]
         public string Text { get; init; }
 
-        public string ArticleId { get; set; }
+        public Guid ArticleId { get; set; }
 
         public Article Article { get; set; }
 
@@ -24,6 +24,6 @@
 
         public int NumberOfVotes { get; set; }
 
-        public bool IsDeleted { get; set; }
+        public bool IsDeleted { get; set; } = false;
     }
 }
