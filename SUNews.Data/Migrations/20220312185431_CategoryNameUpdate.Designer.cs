@@ -12,8 +12,8 @@ using SUNews.Data.Context;
 namespace SUNews.Data.Migrations
 {
     [DbContext(typeof(SUNewsDbContext))]
-    [Migration("20220306194719_Initial")]
-    partial class Initial
+    [Migration("20220312185431_CategoryNameUpdate")]
+    partial class CategoryNameUpdate
     {
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
@@ -26,8 +26,8 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("AuthorUser", b =>
                 {
-                    b.Property<string>("FavoriteAuthorsId")
-                        .HasColumnType("nvarchar(40)");
+                    b.Property<Guid>("FavoriteAuthorsId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("FollowersId")
                         .HasColumnType("nvarchar(450)");
@@ -178,18 +178,21 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.Article", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("AuthorId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(40)");
+                    b.Property<Guid>("AuthorId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Content")
                         .IsRequired()
                         .HasMaxLength(1000)
                         .HasColumnType("nvarchar(1000)");
+
+                    b.Property<DateTime>("DateOfCreation")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("ImageUrl")
                         .IsRequired()
@@ -221,11 +224,11 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.ArticleCategory", b =>
                 {
-                    b.Property<string>("CategoryId")
-                        .HasColumnType("nvarchar(40)");
+                    b.Property<Guid>("CategoryId")
+                        .HasColumnType("uniqueidentifier");
 
-                    b.Property<string>("ArticleId")
-                        .HasColumnType("nvarchar(40)");
+                    b.Property<Guid>("ArticleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.HasKey("CategoryId", "ArticleId");
 
@@ -236,9 +239,10 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.Author", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -252,9 +256,10 @@ namespace SUNews.Data.Migrations
 
             modelBuilder.Entity("SUNews.Data.Models.Category", b =>
                 {
-                    b.Property<string>("Id")
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasMaxLength(40)
-                        .HasColumnType("nvarchar(40)");
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -274,9 +279,8 @@ namespace SUNews.Data.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
 
-                    b.Property<string>("ArticleId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(40)");
+                    b.Property<Guid>("ArticleId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");

@@ -52,7 +52,7 @@ namespace SUNews.Data.Migrations
                 name: "Authors",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 40, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false)
                 },
                 constraints: table =>
@@ -64,7 +64,7 @@ namespace SUNews.Data.Migrations
                 name: "Categories",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 40, nullable: false),
                     Name = table.Column<string>(type: "nvarchar(20)", maxLength: 20, nullable: false)
                 },
                 constraints: table =>
@@ -182,13 +182,14 @@ namespace SUNews.Data.Migrations
                 name: "Articles",
                 columns: table => new
                 {
-                    Id = table.Column<string>(type: "nvarchar(40)", maxLength: 40, nullable: false),
+                    Id = table.Column<Guid>(type: "uniqueidentifier", maxLength: 40, nullable: false),
                     Content = table.Column<string>(type: "nvarchar(1000)", maxLength: 1000, nullable: false),
                     Title = table.Column<string>(type: "nvarchar(100)", maxLength: 100, nullable: false),
                     ImageUrl = table.Column<string>(type: "nvarchar(500)", maxLength: 500, nullable: false),
                     LikeCount = table.Column<int>(type: "int", nullable: true),
                     Rating = table.Column<double>(type: "float", nullable: true),
-                    AuthorId = table.Column<string>(type: "nvarchar(40)", nullable: false),
+                    AuthorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    DateOfCreation = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: true)
                 },
                 constraints: table =>
@@ -211,7 +212,7 @@ namespace SUNews.Data.Migrations
                 name: "AuthorUser",
                 columns: table => new
                 {
-                    FavoriteAuthorsId = table.Column<string>(type: "nvarchar(40)", nullable: false),
+                    FavoriteAuthorsId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     FollowersId = table.Column<string>(type: "nvarchar(450)", nullable: false)
                 },
                 constraints: table =>
@@ -235,8 +236,8 @@ namespace SUNews.Data.Migrations
                 name: "ArticleCategories",
                 columns: table => new
                 {
-                    ArticleId = table.Column<string>(type: "nvarchar(40)", nullable: false),
-                    CategoryId = table.Column<string>(type: "nvarchar(40)", nullable: false)
+                    ArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    CategoryId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -262,7 +263,7 @@ namespace SUNews.Data.Migrations
                     Id = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     Text = table.Column<string>(type: "nvarchar(150)", maxLength: 150, nullable: false),
-                    ArticleId = table.Column<string>(type: "nvarchar(40)", nullable: false),
+                    ArticleId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     UserId = table.Column<string>(type: "nvarchar(450)", nullable: false),
                     NumberOfVotes = table.Column<int>(type: "int", nullable: false),
                     IsDeleted = table.Column<bool>(type: "bit", nullable: false)
