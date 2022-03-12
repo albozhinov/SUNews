@@ -36,18 +36,20 @@
                 };
             }
 
-            var existsCategories = await repository.All<ArticleCategory>()
-                                                    .Where(ac => categories
-                                                        .Any(categoryName => categoryName.ToLower() == ac.Category.Name.ToLower()))
-                                                    .ToListAsync();
+            var existsCategories = await repository.All<Category>()
+                                                .Where(c => categories.Contains(c.Name))
+                                                .ToListAsync();
 
             var article = new Article()
             {
-                Title = title,
+                Title = title.ToUpper(),
                 Content = content,
                 ImageUrl = imageUrl,
                 Author = author,
-                Categories = existsCategories,
+                Categories = existsCategories.Select(c => new ArticleCategory()
+                {
+                    CategoryId = c.Id                    
+                }).ToList()
             };
 
             await repository.AddAsync(article);
