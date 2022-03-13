@@ -5,6 +5,7 @@ using SUNews.Data.Models;
 using SUNews.Data.Repository;
 using SUNews.Providers;
 using SUNews.Services.Contracts;
+using SUNews.Services.Providers;
 using SUNews.Services.Services;
 
 var builder = WebApplication.CreateBuilder(args);

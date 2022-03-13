@@ -6,7 +6,7 @@
 
     public class Category
     {
-        [MaxLength(IdMaxLength)]
+        [Required]
         public Guid Id { get; init; } = Guid.NewGuid();
 
         [Required]
