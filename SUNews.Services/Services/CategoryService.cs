@@ -1,23 +1,26 @@
 ﻿namespace SUNews.Services.Services
 {
+    using System.Collections.Generic;
     using Microsoft.EntityFrameworkCore;
     using SUNews.Data.Models;
     using SUNews.Data.Repository;
     using SUNews.Services.Contracts;
-    using System.Collections.Generic;
+    using SUNews.Services.Providers;
 
     public class CategoryService : ICategoryService
     {
         private readonly IRepository repository;
+        private readonly IValidatorService validator;
 
-        public CategoryService(IRepository _repository)
+        public CategoryService(IRepository _repository, IValidatorService validatorSerivce)
         {
             repository = _repository;
+            validator = validatorSerivce;
         }
 
         public async Task<string> CreateCategory(string categoryName)
         {
-            var createdCategoryName = string.Empty;
+            validator.NullOrWhiteSpacesCheck(categoryName);
 
             var isExists = await repository.All<Category>()
                 .FirstOrDefaultAsync(c => c.Name == categoryName.ToUpper());
@@ -31,6 +34,8 @@
             {
                 Name = categoryName.ToUpper(),
             };
+
+            validator.ValidateModel(categoryToAdd);
 
             await repository.AddAsync(categoryToAdd);
             await repository.SaveAsync();
