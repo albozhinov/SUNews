@@ -34,8 +34,17 @@ namespace SUNews.Web.Controllers
                 return View();
             }
 
-            //Here we have category name and can return to view!
-            var categoryToAdd = await categoryService.CreateCategory(categoryName);
+            try
+            {
+                //Here we have category name and can return to view!
+                var categoryToAdd = await categoryService.CreateCategory(categoryName);
+
+            }
+            catch (Exception ex)
+            {
+                var message = ex.Message;
+                return View();
+            }
 
             return Redirect("/Article/CreateArticle");
         }

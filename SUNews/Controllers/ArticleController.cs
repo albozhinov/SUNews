@@ -4,6 +4,7 @@
     using Microsoft.AspNetCore.Mvc;
     using Microsoft.AspNetCore.Mvc.Rendering;
     using SUNews.Models;
+    using SUNews.Services.Constants;
     using SUNews.Services.Contracts;
 
     public class ArticleController : Controller
@@ -35,7 +36,7 @@
             var model = new CreateArticleViewModel()
             {
                 CategoriesList = selectListItems
-            };            
+            };
 
             return View(model);
         }
@@ -50,10 +51,23 @@
                 return RedirectToAction("CreateArticle");
             }
 
-            await articleService.CreateArticle(model.Title, model.Content, model.ImageUrl, model.AuthorName, model.Categories);
+            try
+            {
+                await articleService.CreateArticleAsync(model.Title,
+                                                        model.Content,
+                                                        model.ImageUrl,
+                                                        model.AuthorName,
+                                                        model.Categories);
 
+                return Redirect("/Home/Index");
+            }
+            catch (Exception ex)
+            {
 
-            return Redirect("/Home/Index");
+                ViewData[MessageConstant.ErrorMessage] = ex.Message;
+
+                return View();
+            }
         }
     }
 }
