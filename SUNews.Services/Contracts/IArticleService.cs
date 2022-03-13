@@ -5,6 +5,14 @@
 
     public interface IArticleService
     {
-        Task<Article> CreateArticle(string title, string content, string imageUrl, string authorName, ICollection<string> categories);
+        Task<Article> CreateArticleAsync(string title, string content, string imageUrl, string authorName, ICollection<string> categories);
+
+        Task<ICollection<Article>> GetAllArticlesAsync();
+
+        Task<Article> DetailsOfArticleAsync(Guid articleId);
+
+        Task<Article> RateArticleAsync(Guid articleId, double rating);
+
+        Task<Article> CommentArticle(Guid articleId, string comment);
     }
 }
