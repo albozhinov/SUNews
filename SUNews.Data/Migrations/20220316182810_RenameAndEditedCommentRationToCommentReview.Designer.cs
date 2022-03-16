@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SUNews.Data.Context;
 
@@ -11,9 +12,10 @@ using SUNews.Data.Context;
 namespace SUNews.Data.Migrations
 {
     [DbContext(typeof(SUNewsDbContext))]
-    partial class SUNewsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220316182810_RenameAndEditedCommentRationToCommentReview")]
+    partial class RenameAndEditedCommentRationToCommentReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -313,6 +315,9 @@ namespace SUNews.Data.Migrations
 
                     b.Property<int>("Id")
                         .HasColumnType("int");
+
+                    b.Property<double>("NumberOfVotes")
+                        .HasColumnType("float");
 
                     b.HasKey("CommentId", "UserId");
 

@@ -3,7 +3,7 @@
     using System.ComponentModel.DataAnnotations;
     using static DataConstants;
 
-    public class CommentRatings
+    public class CommentReview
     {
         public int Id { get; init; }
 
@@ -14,9 +14,5 @@
         public int CommentId { get; set; }
 
         public Comment Comment { get; set; }
-
-        [Required]
-        [Range(ArticleRatingMin, ArticleRatingMax)]
-        public double CommentRating { get; set; }
     }
 }

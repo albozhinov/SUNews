@@ -20,7 +20,7 @@
 
         public User User { get; set; }
 
-        public ICollection<CommentRatings> Ratings { get; set; } = new List<CommentRatings>();
+        public ICollection<CommentReview> Ratings { get; set; } = new List<CommentReview>();
 
         public int NumberOfVotes { get; set; }
 

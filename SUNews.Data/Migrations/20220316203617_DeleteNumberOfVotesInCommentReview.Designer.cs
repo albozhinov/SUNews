@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SUNews.Data.Context;
 
@@ -11,9 +12,10 @@ using SUNews.Data.Context;
 namespace SUNews.Data.Migrations
 {
     [DbContext(typeof(SUNewsDbContext))]
-    partial class SUNewsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220316203617_DeleteNumberOfVotesInCommentReview")]
+    partial class DeleteNumberOfVotesInCommentReview
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder

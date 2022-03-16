@@ -12,7 +12,7 @@
 
         public DbSet<Comment> Comments { get; set; }
 
-        public DbSet<CommentRatings> CommentRatings { get; set; }
+        public DbSet<CommentReview> CommentReviews { get; set; }
 
         public DbSet<Category> Categories { get; set; }
 
@@ -51,7 +51,7 @@
                                      .HasForeignKey(c => c.ArticleId)
                                      .OnDelete(DeleteBehavior.Restrict);
 
-            builder.Entity<CommentRatings>()
+            builder.Entity<CommentReview>()
                                             .HasKey(cr => new { cr.CommentId, cr.UserId });
 
             builder.Entity<User>()

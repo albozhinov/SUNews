@@ -8,7 +8,7 @@
 
         public ICollection<Comment> Comments { get; set; }
 
-        public ICollection<CommentRatings> Ratings { get; set; }
+        public ICollection<CommentReview> Ratings { get; set; }
 
         public ICollection<Author> FavoriteAuthors { get; set; }
     }
