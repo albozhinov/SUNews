@@ -52,13 +52,17 @@
 
             var author = await repository.All<Author>().FirstOrDefaultAsync(a => a.Name.ToLower() == authorName.ToLower());
 
-            if (author == null)
-            {
-                author = new Author()
-                {
-                    Name = authorName,
-                };
-            }
+            ///Автора не се добавя тук.
+            ///Ако не съществува базата данни хвърля грешка
+            ///Бизнес логиката ще бъде автора да е логнат и той да създава статия, тогава 
+            ///в метода CreateArticleAsync ще получаваме и AuthorId параметър.
+            //if (author == null)
+            //{
+            //    author = new Author()
+            //    {
+            //        Name = authorName,
+            //    };
+            //}
 
             var existsCategories = await repository.All<Category>()
                                                 .Where(c => categories.Contains(c.Name))
@@ -69,10 +73,11 @@
                 Title = title.ToUpper(),
                 Content = content,
                 ImageUrl = imageUrl,
-                Author = author,
+                AuthorId = author.Id,
                 Categories = existsCategories.Select(c => new ArticleCategory()
                 {
-                    CategoryId = c.Id
+                    CategoryId = c.Id,
+
                 }).ToList()
             };
 
@@ -108,12 +113,14 @@
             return await repository.All<Article>()
                                                  .Include(a => a.Author)
                                                  .Include(a => a.Categories)
+                                                 .ThenInclude(c => c.Category)
                                                  .Select(a => new Article()
                                                  {
                                                      Title = a.Title,
                                                      DateOfCreation = a.DateOfCreation,
                                                      ImageUrl = a.ImageUrl,
                                                      Rating = a.Rating,
+                                                     Categories = a.Categories,
                                                  })
                                                  .ToListAsync();
         }
