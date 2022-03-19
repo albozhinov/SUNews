@@ -18,8 +18,7 @@
         public void NullOrWhiteSpacesCheck(string parameter)
         {
             if (String.IsNullOrEmpty(parameter.ToString()) ||
-                String.IsNullOrWhiteSpace(parameter.ToString()) ||
-                parameter.ToString().Contains(' '))
+                String.IsNullOrWhiteSpace(parameter.ToString()))
             {
                 throw new ArgumentNullException("Nullable or white spaces values are not supported.");
             }
