@@ -27,6 +27,6 @@ namespace SUNews.Models
         public ICollection<string> Categories { get; set; } = new List<string>();
 
         // This must to be here to list Categories in View!
-        public IEnumerable<SelectListItem>? CategoriesList { get; set; }
+        public IEnumerable<SelectListItem> CategoriesList { get; set; } = new List<SelectListItem>();
     }
 }

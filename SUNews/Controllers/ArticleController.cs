@@ -19,9 +19,13 @@
         }
 
 
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var articles = await articleService.GetAllArticlesAsync();
+
+            var model = articles.Select(a => new AllArticlesViewModel(a)).ToList();
+
+            return View(model);
         }
 
 
@@ -43,12 +47,15 @@
 
         //[Authorize(Roles = "Admin")]
         [HttpPost]
-        [ValidateAntiForgeryToken]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateArticle(CreateArticleViewModel model)
         {
             if (!ModelState.IsValid)
             {
-                return RedirectToAction("CreateArticle");
+                ////Here we can return View with invalid data value.
+                ///This we be helpful to write correct value and better user experience.
+                model.CategoriesList = model.Categories.Select(c => new SelectListItem { Text = c }).ToList();
+                return View(model);
             }
 
             try
@@ -66,8 +73,18 @@
 
                 ViewData[MessageConstant.ErrorMessage] = ex.Message;
 
-                return View();
+                return View("Error");
             }
+        }
+
+        public async Task<IActionResult> AllArticles()
+        {
+            var allArticles = await articleService.GetAllArticlesAsync();
+
+            var articles = allArticles.Select(a => new AllArticlesViewModel(a)).ToList();
+
+
+            return RedirectToAction("Index", "Home", articles);
         }
     }
 }
