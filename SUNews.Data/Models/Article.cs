@@ -6,7 +6,7 @@
 
     public class Article
     {
-        [MaxLength(IdMaxLength)]
+        [Required]
         public Guid Id { get; init; } = Guid.NewGuid();
         
         [Required]
