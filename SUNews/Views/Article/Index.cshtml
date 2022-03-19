@@ -1,0 +1,8 @@
+﻿@model IEnumerable<AllArticlesViewModel>
+
+@foreach (var article in Model)
+{
+
+    <partial name="AllArticles" model="@article" />
+
+}

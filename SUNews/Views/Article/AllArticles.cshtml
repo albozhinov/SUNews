@@ -1,0 +1,72 @@
+﻿@model AllArticlesViewModel
+
+
+<div class="list">
+    <div class="card pt-3 pb-3 ad0 my-6">
+        <div class="card-body media align-items-stretch p-0">
+
+
+            <a class="stretched-link gtag-feed-home-statia-1" asp-route="Article/Details/@Model.Id" title="@Model.Title">
+                <img class="lazy mr-3 loaded" data-src="@Model.ImageUrl" alt="@Model.Title" loading="lazy" src="@Model.ImageUrl" data-ll-status="loaded">
+            </a>
+            <div class="media-body d-flex flex-column">
+                <nav class="d-inline-block" aria-label="breadcrumb">
+                    <ol class="breadcrumb p-0 mb-1">
+                        @foreach (var category in @Model.Categories)
+                        {
+                            <li class="breadcrumb-item">
+                                @category.Category.Name
+                            </li>
+                        }
+                    </ol>
+                </nav>
+                <h3 class="card-title d-flex">
+                    <a class="flex-grow-1 gtag-home-statia-nai-novoto1" asp-route="Article/Details/@Model.Id" title="@Model.Title">
+                        @Model.Title
+                    </a>
+                    <button data-storyid="4325583" class="align-self-start mb-lg-auto mr-auto btn-link save save--personal gtag-homepage-newest-feed-save" title="Запазване">
+                        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 36 36">
+                            <g transform="translate(-11 -432)">
+                                <g transform="translate(11 340)">
+                                    <circle cx="18" cy="18" r="18" transform="translate(0 92)"></circle>
+                                    <g transform="translate(11.041 99)">
+                                        <path d="M462.612,314.965v-22H476.9v22l-7.142-7.089Z" transform="translate(-462.612 -292.965)"></path>
+                                    </g>
+                                </g>
+                            </g>
+                        </svg>
+                    </button>
+
+                </h3>
+                <div class="card-text d-flex flex-lg-row flex-column mt-auto clv">
+                    <ul class="list-inline mb-0">
+                        <li class="list-inline-item">
+                            <time datetime="2022-03-17T21:18:00">
+                                17 март 2022, 21:18
+                            </time>
+                        </li>
+                    </ul>
+                    <ul class="list-inline mb-0 ml-lg-auto">
+                        <li class="list-inline-item vcomments">
+                            2
+                        </li>
+                        <li class="list-inline-item vreccnt">
+                            0
+                        </li>
+                        <li class="list-inline-item views">
+                            502
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+        <hr class="border-sep mt-3 d-block">
+    </div>
+
+</div>
+
+
+
+
+
+
