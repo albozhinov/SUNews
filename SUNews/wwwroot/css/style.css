@@ -95,7 +95,7 @@ h2 {
   top: 2px;
   font-size: 14px; }
 
-.social-login a {
+.social-login button {
   display: block;
   text-decoration: none;
   display: block;
@@ -103,19 +103,20 @@ h2 {
   text-align: center;
   color: #fff;
   margin-bottom: 10px; }
-  .social-login a:hover {
+  .social-login button:hover {
     color: #fff; }
-  .social-login a.facebook {
+  .social-login button.facebook {
     background: #3b5998; }
-    .social-login a.facebook:hover {
-      background: #344e86; }
+    .social-login button.facebook:hover {
+        background: #344e86;
+    }
   .social-login a.twitter {
     background: #1da1f2; }
     .social-login a.twitter:hover {
       background: #0d95e8; }
-  .social-login a.google {
+  .social-login button.google {
     background: #ea4335; }
-    .social-login a.google:hover {
+    .social-login button.google:hover {
       background: #e82e1e; }
 
 .control {
