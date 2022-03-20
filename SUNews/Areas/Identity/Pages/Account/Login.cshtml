@@ -31,7 +31,7 @@
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            <div class="form-group first">                                
+                            <div class="form-group first">
                                 <label asp-for="Input.Email" class="form-label">Email</label>
                                 <input asp-for="Input.Email" autocomplete="username" aria-required="true" type="text" class="form-control" id="username" />
                             </div>
@@ -49,27 +49,27 @@
                             </div>
 
                             <input type="submit" value="Log In" class="btn btn-block btn-primary">
-
-                            <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
-
-                            <div class="social-login">
-
-                                <a class="facebook btn d-flex justify-content-center align-items-center" asp-page="./Register" asp-route-returnUrl="@Model.ReturnUrl">
-
-                                    <span class="icon-facebook mr-3"> </span> Register
-                                </a>
-
-                                @*<a href="#" class="facebook btn d-flex justify-content-center align-items-center">
-                                    <span class="icon-facebook mr-3"></span> Login with Facebook
-                                    </a>
-                                    <a href="#" class="twitter btn d-flex justify-content-center align-items-center">
-                                    <span class="icon-twitter mr-3"></span> Login with  Twitter
-                                    </a>
-                                    <a href="#" class="google btn d-flex justify-content-center align-items-center">
-                                    <span class="icon-google mr-3"></span> Login with  Google*@
-                                @*</a>*@
-                            </div>
                         </form>
+
+                        <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
+
+                        <div class="social-login">
+
+                            
+                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                <div>
+                                    <!--Facebook Login-->
+                                    <p>
+                                        <button type="submit" class="facebook btn btn-block justify-content-center align-items-center" name="provider" value="Facebook" title="Log in using your Facebook account">Login with Facebook</button>
+                                    </p>
+
+                                    <!--Google Login-->
+                                    <p>
+                                        <button type="submit" class="google btn btn-block justify-content-center align-items-center" name="provider" value="Google" title="Log in using your Facebook account">Login with Google</button>
+                                    </p>
+                                </div>
+                            </form>
+                        </div>
                     </div>
                 </div>
             </div>
