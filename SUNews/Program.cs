@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using SUNews.Data.Context;
 using SUNews.Data.Models;
@@ -18,6 +19,8 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<SUNewsDbContext>();
+
+
 
 /// <summary>
 /// This isn't work! I don't known why...
@@ -54,8 +57,29 @@ builder.Services.AddScoped<IValidatorService, ValidatorService>();
 builder.Services.AddScoped(typeof(IUserManager<>), typeof(UserManagerWrapper<>));
 builder.Services.AddScoped(typeof(IRoleManager<>), typeof(RoleManagerWrapper<>));
 
-builder.Services.AddControllersWithViews()
+// Global Automatically validate antiforgery tokens for unsafe HTTP methods only
+builder.Services.AddControllersWithViews(options =>
+{
+    options.Filters.Add(new AutoValidateAntiforgeryTokenAttribute());
+})
                 .AddRazorRuntimeCompilation();
+
+
+/// <summary>
+/// External login providers authentication
+/// </summary>
+var configuration = builder.Configuration;
+builder.Services.AddAuthentication()
+   .AddGoogle(options =>
+   {
+       options.ClientId = configuration["Authentication:Google:ClientId"];
+       options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+   })
+   .AddFacebook(facebookOptions =>
+   {
+       facebookOptions.ClientId = configuration["Authentication:Facebook:AppId"];
+       facebookOptions.ClientSecret = configuration["Authentication:Facebook:AppSecret"];
+   });
 
 // Check this if work correct!!!
 //builder.Services.Configure<ServiceProvider>(async (options) =>
