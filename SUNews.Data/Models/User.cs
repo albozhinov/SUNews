@@ -4,6 +4,10 @@
 
     public class User : IdentityUser
     {
+        public string? FirstName { get; set; }
+
+        public string? LastName { get; set; }
+
         public ICollection<Article> FavoriteArticles { get; set; }
 
         public ICollection<Comment> Comments { get; set; }
