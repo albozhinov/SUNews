@@ -24,5 +24,8 @@
         //Category
         public const int CategoryNameMinLength = 3;
         public const int CategoryNameMaxLength = 20;
+
+        //User
+        public const int FirstAndLastNameLength = 50;
     }
 }
