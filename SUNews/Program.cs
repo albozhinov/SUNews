@@ -20,16 +20,6 @@ builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 builder.Services.AddDefaultIdentity<User>(options => options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<SUNewsDbContext>();
 
-
-
-/// <summary>
-/// This isn't work! I don't known why...
-/// </summary>
-//builder.Services.AddIdentity<User, IdentityRole>(options => options.SignIn.RequireConfirmedAccount = false)
-//    .AddRoles<IdentityRole>()
-//    .AddEntityFrameworkStores<SUNewsDbContext>()
-//    .AddDefaultTokenProviders();
-
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -68,39 +58,17 @@ builder.Services.AddControllersWithViews(options =>
 /// <summary>
 /// External login providers authentication
 /// </summary>
-var configuration = builder.Configuration;
 builder.Services.AddAuthentication()
-   .AddGoogle(options =>
+   .AddGoogle(googleOptions =>
    {
-       options.ClientId = configuration["Authentication:Google:ClientId"];
-       options.ClientSecret = configuration["Authentication:Google:ClientSecret"];
+       googleOptions.ClientId = builder.Configuration["Google:ClientId"];
+       googleOptions.ClientSecret = builder.Configuration["Google:ClientSecret"];
    })
    .AddFacebook(facebookOptions =>
    {
-       facebookOptions.ClientId = configuration["Authentication:Facebook:AppId"];
-       facebookOptions.ClientSecret = configuration["Authentication:Facebook:AppSecret"];
+       facebookOptions.ClientId = builder.Configuration["Facebook:AppId"];
+       facebookOptions.ClientSecret = builder.Configuration["Facebook:AppSecret"];
    });
-
-// Check this if work correct!!!
-//builder.Services.Configure<ServiceProvider>(async (options) =>
-//{
-//    var roleManager = options.GetRequiredService<RoleManager<IdentityRole>>();
-//    var userManager = options.GetRequiredService<UserManager<User>>();
-
-//    //Adding Admin Role 
-//    var roleCheck = await roleManager.RoleExistsAsync("Admin");
-//    if (!roleCheck)
-//    {
-//        //create the roles and seed them to the database 
-//        await roleManager.CreateAsync(new IdentityRole("Admin"));
-//    }
-
-//    //Assign Admin role to the main User here we have given our newly registered
-//    //login id for Admin management
-//    var user = await userManager.FindByEmailAsync("admin@abv.bg");
-//    var User = new User();
-//    await userManager.AddToRoleAsync(user, "Admin");
-//});
 
 var app = builder.Build();
 
@@ -125,13 +93,16 @@ app.UseRouting();
 app.UseAuthentication();
 app.UseAuthorization();
 
+
+app.MapControllerRoute(
+    name: "adminArea",
+    pattern: "{area:exists}/{controller=Home}/{action=Index}/{id?}");
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Article}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Index}/{id?}");
 
-//app.MapControllerRoute(
-//    name: "adminArea",
-//    pattern: "{area:exists}/{controller=Users}/{action=Index}/{id?}");
+
 app.MapRazorPages();
 
 app.Run();
