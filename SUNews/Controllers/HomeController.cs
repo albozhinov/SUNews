@@ -19,7 +19,7 @@ namespace SUNews.Controllers
         {
             ViewData[MessageConstant.ErrorMessage] = "Something was broken!";
 
-            return View();
+            return RedirectToAction("Index", "Article");
         }
 
         public IActionResult Login()
