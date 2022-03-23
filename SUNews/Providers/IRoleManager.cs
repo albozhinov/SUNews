@@ -9,5 +9,7 @@
         IQueryable<T> Roles { get; }
 
         RoleManager<T> Istance { get; }
+
+        Task<IdentityResult> CreateAsync(T role);
     }
 }

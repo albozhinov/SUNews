@@ -15,6 +15,11 @@
 
         public RoleManager<T> Istance => this._roleManager;
 
+        public async Task<IdentityResult> CreateAsync(T role)
+        {
+            return await _roleManager.CreateAsync(role);
+        }
+
         public async Task<bool> RoleExistsAsync(string roleName)
         {
             return await this._roleManager.RoleExistsAsync(roleName);

@@ -1,41 +1,50 @@
 ﻿using Microsoft.AspNetCore.Identity;
 using SUNews.Data.Models;
+using SUNews.Services.Constants;
+using System.Security.Claims;
 
 namespace SUNews.Providers
 {
-    public class CreateRolesProvider
+    public class CreateRolesProvider : ICreateRolesProvider
     {
-        private readonly IServiceProvider serviceProvider;
+        private readonly IRoleManager<IdentityRole> roleManager;
+        private readonly IUserManager<User> userManager;
 
-        public CreateRolesProvider(IServiceProvider _serviceProvider)
+        public CreateRolesProvider(IRoleManager<IdentityRole> _roleManager, IUserManager<User> _userManager)
         {
-            this.serviceProvider = _serviceProvider;
+            this.roleManager = _roleManager;
+            this.userManager = _userManager;
         }
 
-        public static async Task CreateUserRoles(IServiceProvider serviceProvider)
+        public async Task<(string, string)> CreateUserRoles(ClaimsPrincipal loggedUser, string role)
         {
-            var RoleManager = serviceProvider.GetRequiredService<RoleManager<IdentityRole>>();
-            var UserManager = serviceProvider.GetRequiredService<UserManager<User>>();
+            (string, string) message;
+            var user = await userManager.GetUserAsync(loggedUser);
+            var userRoles = await userManager.GetRolesAsync(user);
 
-            //Adding Admin Role 
-            var roleCheck = await RoleManager.RoleExistsAsync("Admin");
+            if (userRoles.Contains(role))
+            {
+                message.Item1 = MessageConstant.WarningMessage;
+                message.Item2 = $"{user.Email} already added to this role!";
+                return message;
+            }
+
+            //Adding Role 
+            var roleCheck = await roleManager.RoleExistsAsync(role);
             if (!roleCheck)
             {
                 //create the roles and seed them to the database 
-                await RoleManager.CreateAsync(new IdentityRole("Admin"));
+                await roleManager.CreateAsync(new IdentityRole(role));
             }
 
-            roleCheck = await RoleManager.RoleExistsAsync("User");
-            if (!roleCheck)
-            {
-                await RoleManager.CreateAsync(new IdentityRole("User"));
-            }
+            //Assign Role to the main User here we have given our newly registered
+            //login id for Admin management            
+            await userManager.AddToRoleAsync(user, role);
 
-            //Assign Admin role to the main User here we have given our newly registered
-            //login id for Admin management
-            User user = await UserManager.FindByEmailAsync("admin@abv.bg");
-            var User = new User();
-            await UserManager.AddToRoleAsync(user, "Admin");
+            message.Item1 = MessageConstant.SuccessMessage;
+            message.Item2 = $"Successfully created role {role} and added to {user.Email}!";
+
+            return message;
         }
     }
 }

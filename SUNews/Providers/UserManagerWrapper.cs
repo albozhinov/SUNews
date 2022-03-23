@@ -42,5 +42,9 @@
 
         public async Task<IdentityResult> SetLockoutEndDateAsync(T user, DateTimeOffset? lockoutEnd) =>
                                         await this._userManager.SetLockoutEndDateAsync(user, lockoutEnd);
+
+        public async Task<string> GetEmailAsync(T user) => 
+                                        await this._userManager.GetEmailAsync(user);
+        
     }
 }

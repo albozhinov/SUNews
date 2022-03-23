@@ -23,6 +23,7 @@ options.SignIn.RequireConfirmedAccount = false)
     .AddEntityFrameworkStores<SUNewsDbContext>()
     .AddDefaultTokenProviders();
 
+
 builder.Services.Configure<IdentityOptions>(options =>
 {
     // Password settings.
@@ -49,6 +50,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IValidatorService, ValidatorService>();
 builder.Services.AddScoped(typeof(IUserManager<>), typeof(UserManagerWrapper<>));
 builder.Services.AddScoped(typeof(IRoleManager<>), typeof(RoleManagerWrapper<>));
+builder.Services.AddScoped<ICreateRolesProvider, CreateRolesProvider>();
 
 // Global Automatically validate antiforgery tokens for unsafe HTTP methods only
 builder.Services.AddControllersWithViews(options =>

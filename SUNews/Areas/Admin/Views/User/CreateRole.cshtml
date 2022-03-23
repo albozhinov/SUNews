@@ -1,0 +1,18 @@
+﻿@model CreateRoleViewModel
+
+<h3>Create role</h3>
+<form asp-area="admin" asp-controller="user" asp-action="createrole" method="post">
+    <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+    <span asp-validation-for="@Model.Role" class="text-danger"></span>
+    <div class="form-group first">
+        <label asp-for="@Model.Role" class="form-label">Role</label>
+        <input asp-for="@Model.Role" aria-required="true" type="text" class="form-control" id="role" />
+    </div>
+    <button type="submit" class="btn btn-primary">Submit</button>
+</form>
+
+
+@section scripts {
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+<partial name="_ValidationScriptsPartial" />
+}

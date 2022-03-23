@@ -17,8 +17,6 @@ namespace SUNews.Controllers
 
         public IActionResult Index()
         {
-            ViewData[MessageConstant.ErrorMessage] = "Something was broken!";
-
             return RedirectToAction("Index", "Article");
         }
 
