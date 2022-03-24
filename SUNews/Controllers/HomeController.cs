@@ -17,7 +17,8 @@ namespace SUNews.Controllers
 
         public IActionResult Index()
         {
-            return RedirectToAction("Index", "Article");
+            return View();
+            //return RedirectToAction("Index", "Article");
         }
 
         public IActionResult Login()

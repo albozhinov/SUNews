@@ -18,13 +18,13 @@ namespace SUNews.Web.Controllers
             return View();
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         public IActionResult CreateCategory()
         {
             return View();
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> CreateCategory(string categoryName)

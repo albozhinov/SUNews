@@ -28,7 +28,7 @@
             return View(model);
         }
 
-
+        [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateArticle()
         {
             var allCategories = await categoryService.GetAllCategories();
@@ -45,7 +45,7 @@
             return View(model);
         }
 
-        //[Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Administrator")]
         [HttpPost]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateArticle(CreateArticleViewModel model)
