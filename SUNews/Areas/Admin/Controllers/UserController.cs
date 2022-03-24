@@ -54,5 +54,27 @@
 
             return View();
         }
+
+        //public async Task<IActionResult> ManageUsers()
+        //{
+        //    //var users = await service.GetUsers();
+
+        //    return View(users);
+        //}
+
+        //public async Task<IActionResult> Edit(string id)
+        //{
+        //    //var model = await service.GetUserForEdit(id);
+
+        //    return View(model);
+        //}
+
+        //[HttpPost]
+        //public async Task<IActionResult> Edit(UserEditViewModel model)
+        //{
+        //    //var model = await service.GetUserForEdit(id);
+
+        //    return View(model);
+        //}
     }
 }
