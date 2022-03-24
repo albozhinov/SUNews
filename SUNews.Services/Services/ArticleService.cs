@@ -117,6 +117,7 @@
                                                  .Select(a => new Article()
                                                  {
                                                      Title = a.Title,
+                                                     Content = a.Content,
                                                      DateOfCreation = a.DateOfCreation,
                                                      ImageUrl = a.ImageUrl,
                                                      Rating = a.Rating,
