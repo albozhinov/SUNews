@@ -1,8 +1,25 @@
 ﻿@model IEnumerable<AllArticlesViewModel>
 
-@foreach (var article in Model)
-{
 
-    <partial name="AllArticles" model="@article" />
 
-}
+<section class="content">
+    <div class="container-fluid">
+        <div class="card card-success">
+            <div class="card-body">
+                <div class="row">
+                    @foreach (var article in Model)
+                    {
+
+                        <partial name="AllArticles" model="@article" />
+                    }
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+
+
+
