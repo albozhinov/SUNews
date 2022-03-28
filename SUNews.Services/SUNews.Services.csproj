@@ -11,4 +11,8 @@
     <ProjectReference Include="..\SUNews.Data\SUNews.Data.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="DTOModels\" />
+  </ItemGroup>
+
 </Project>
