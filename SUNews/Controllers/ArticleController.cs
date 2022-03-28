@@ -86,5 +86,14 @@
 
             return RedirectToAction("Index", "Home", articles);
         }
+
+        public async Task<IActionResult> DetailsOfArticle(Guid articleId)
+        {
+            var article = await articleService.DetailsOfArticleAsync(articleId);
+
+            
+
+            return View(new DetailsOfArticleViewModel(article));
+        }
     }
 }
