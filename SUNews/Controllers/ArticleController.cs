@@ -6,6 +6,7 @@
     using SUNews.Models;
     using SUNews.Services.Constants;
     using SUNews.Services.Contracts;
+    using SUNews.Services.Models;
 
     public class ArticleController : Controller
     {
@@ -23,9 +24,7 @@
         {
             var articles = await articleService.GetAllArticlesAsync();
 
-            var model = articles.Select(a => new AllArticlesViewModel(a)).ToList();
-
-            return View(model);
+            return View(articles);
         }
 
         [Authorize(Roles = "Administrator")]
@@ -81,19 +80,17 @@
         {
             var allArticles = await articleService.GetAllArticlesAsync();
 
-            var articles = allArticles.Select(a => new AllArticlesViewModel(a)).ToList();
 
-
-            return RedirectToAction("Index", "Home", articles);
+            return RedirectToAction("Index", "Home", allArticles);
         }
 
-        public async Task<IActionResult> DetailsOfArticle(Guid articleId)
+        public async Task<IActionResult> DetailsOfArticle(string articleId)
         {
             var article = await articleService.DetailsOfArticleAsync(articleId);
 
             
 
-            return View(new DetailsOfArticleViewModel(article));
+            return View(article);
         }
     }
 }
