@@ -7,5 +7,7 @@
         public void NullOrEmptyCollection(ICollection<string> collection);
 
         public void ValidateModel(object model);
+
+        public (bool, Guid) TryParseGuid(string guidId);
     }
 }

@@ -42,5 +42,16 @@
 
             throw new ArgumentException(error);
         }
+
+        public (bool, Guid) TryParseGuid(string guidId)
+        {
+            Guid parsedArticleId;
+            bool isValidId = Guid.TryParse(guidId, out parsedArticleId);
+
+            if (!isValidId)
+                return (false, Guid.Empty);
+
+            return (true, parsedArticleId);
+        }
     }
 }
