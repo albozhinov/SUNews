@@ -9,32 +9,40 @@
     using System.Linq;
     using SUNews.Services.Providers;
     using System;
+    using SUNews.Services.Models;
+
+    using static SUNews.Services.Constants.MessageConstant;
 
     public class ArticleService : IArticleService
     {
         private readonly IRepository repository;
-        private readonly IValidatorService validator;
+        private readonly IValidatorService validator;        
 
         public ArticleService(IRepository _repository, IValidatorService validatorService)
         {
             this.repository = _repository;
             validator = validatorService;
         }
+        
+        public async Task<DetailsOfArticlesServiceModel> ArticleComments(string articleId, string commentText)
+        {            
+            validator.NullOrWhiteSpacesCheck(commentText);
+            (bool, Guid) isValidId = validator.TryParseGuid(articleId);
+
+            if (!isValidId.Item1)
+                throw new ArgumentNullException(ArticleNotFound);
+
+            var article = await repository.All<Article>()
+                                                        .Where(a => a.Id == isValidId.Item2)
+                                                        .Include(artCom => artCom.Comments)
+                                                            .ThenInclude(com => com.Ratings)
+                                                        .FirstOrDefaultAsync();
 
 
-        /// <summary>
-        /// This must be implement!
-        /// </summary>
-        /// <param name="articleId"></param>
-        /// <param name="comment"></param>
-        /// <returns></returns>
-        /// <exception cref="NotImplementedException"></exception>
-        public Task<Article> CommentArticle(Guid articleId, string comment)
-        {
-            throw new NotImplementedException();
+            return new DetailsOfArticlesServiceModel(article);
         }
 
-        public async Task<Article> CreateArticleAsync(string title, string content, string imageUrl, string authorName, ICollection<string> categories)
+        public async Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title, string content, string imageUrl, string authorName, ICollection<string> categories)
         {
             validator.NullOrWhiteSpacesCheck(title);
             validator.NullOrWhiteSpacesCheck(content);
@@ -87,30 +95,32 @@
             await repository.AddAsync(article);
             await repository.SaveAsync();
 
-            return article;
+            return new DetailsOfArticlesServiceModel(article);
         }
 
-        public async Task<Article> DetailsOfArticleAsync(Guid articleId)
+        public async Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId)
         {
+            (bool, Guid) isValidId = validator.TryParseGuid(articleId);
+
+            if (!isValidId.Item1)
+                throw new ArgumentNullException(ArticleNotFound);
 
             // Here maybe do somthing beteer... In UI we have "Show more" button who get Comment -> Comment
-            var article = await repository.All<Article>()
+            var dbArticle = await repository.All<Article>()
                                                     .Include(artA => artA.Author)
-                                                    .Include(artC => artC.Categories)
-                                                    .Include(artCom => artCom.Comments)
-                                                        .ThenInclude(com => com.Ratings)                                                        
-                                                    .FirstOrDefaultAsync(a => a.Id == articleId);
+                                                    .Include(artC => artC.Categories)                                                        
+                                                    .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
 
-            if (article == null)
-                throw new ArgumentException("The article cannot be find.");
+            if (dbArticle == null)
+                throw new ArgumentException(ArticleNotFound);
 
 
-            return article;
+            return new DetailsOfArticlesServiceModel(dbArticle);
         }
 
-        public async Task<ICollection<Article>> GetAllArticlesAsync()
+        public async Task<ICollection<AllArticlesServiceModel>> GetAllArticlesAsync()
         {
-            return await repository.All<Article>()
+            var allDBArticles = await repository.All<Article>()
                                                  .Include(a => a.Author)
                                                  .Include(a => a.Categories)
                                                  .ThenInclude(c => c.Category)
@@ -124,14 +134,21 @@
                                                      Author = a.Author
                                                  })
                                                  .ToListAsync();
+
+            return allDBArticles.Select(a => new AllArticlesServiceModel(a)).ToList();
         }
 
-        public async Task<Article> RateArticleAsync(Guid articleId, double rating)
+        public async Task<DetailsOfArticlesServiceModel> RateArticleAsync(string articleId, double rating)
         {
-            var article = await repository.All<Article>().FirstOrDefaultAsync(a => a.Id == articleId);
+            (bool, Guid) isValidId = validator.TryParseGuid(articleId);
+
+            if (!isValidId.Item1)
+                throw new ArgumentNullException(ArticleNotFound);
+
+            var article = await repository.All<Article>().FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
 
             if (article == null)
-                throw new ArgumentException($"This article: {articleId} cannot find.");
+                throw new ArgumentException(ArticleNotFound);
 
             if (article.Rating == null)
             {
@@ -147,7 +164,7 @@
             repository.Update(article);
             await repository.SaveAsync();
 
-            return article;
+            return new DetailsOfArticlesServiceModel(article);
         }
     }
 }

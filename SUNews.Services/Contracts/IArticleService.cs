@@ -13,6 +13,6 @@
 
         Task<DetailsOfArticlesServiceModel> RateArticleAsync(string articleId, double rating);
 
-        Task<DetailsOfArticlesServiceModel> CommentArticle(string articleId, string comment);
+        Task<DetailsOfArticlesServiceModel> ArticleComments(string articleId, string comment);
     }
 }
