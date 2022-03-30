@@ -1,18 +1,18 @@
 ﻿namespace SUNews.Services.Contracts
 {
-    using SUNews.Data.Models;
+    using SUNews.Services.Models;
     using System.Threading.Tasks;
 
     public interface IArticleService
     {
-        Task<Article> CreateArticleAsync(string title, string content, string imageUrl, string authorName, ICollection<string> categories);
+        Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title, string content, string imageUrl, string authorName, ICollection<string> categories);
 
-        Task<ICollection<Article>> GetAllArticlesAsync();
+        Task<ICollection<AllArticlesServiceModel>> GetAllArticlesAsync();
 
-        Task<Article> DetailsOfArticleAsync(Guid articleId);
+        Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId);
 
-        Task<Article> RateArticleAsync(Guid articleId, double rating);
+        Task<DetailsOfArticlesServiceModel> RateArticleAsync(string articleId, double rating);
 
-        Task<Article> CommentArticle(Guid articleId, string comment);
+        Task<DetailsOfArticlesServiceModel> CommentArticle(string articleId, string comment);
     }
 }
