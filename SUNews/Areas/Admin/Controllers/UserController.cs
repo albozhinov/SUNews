@@ -3,6 +3,7 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using SUNews.Areas.Admin.Models;
     using SUNews.Data.Models;
     using SUNews.Providers;
     using SUNews.Services.Constants;
@@ -15,12 +16,12 @@
         private readonly IUserService userSerivce;
         private readonly IRoleManager<IdentityRole> roleManager;
         private readonly IUserManager<User> userManager;
-        private readonly ICreateRolesProvider createRolesProvider;
+        private readonly IRolesProvider createRolesProvider;
 
         public UserController(IUserService _userService,
                               IRoleManager<IdentityRole> _roleManager,
                               IUserManager<User> _userManager,
-        ICreateRolesProvider _createRolesProvider)
+        IRolesProvider _createRolesProvider)
         {
             userSerivce = _userService;
             roleManager = _roleManager;
@@ -48,33 +49,61 @@
                 return View(role);
             }
 
-            var result = await createRolesProvider.CreateUserRoles(User, role);
+            var result = await createRolesProvider.CreateRole(role);
 
             ViewData[result.Item1] = result.Item2;
 
             return View();
         }
 
-        //public async Task<IActionResult> ManageUsers()
-        //{
-        //    //var users = await service.GetUsers();
+        [Authorize(Roles = "Administrator, Owner, Manager")]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            var allUsers = await userManager.GetUsersInRoleAsync("User");
+            var model = allUsers.Select(u => new AllUsersViewModel(u) { Role = "User"}).ToList();
 
-        //    return View(users);
-        //}
+            return View("Users", model);
+        }
 
-        //public async Task<IActionResult> Edit(string id)
-        //{
-        //    //var model = await service.GetUserForEdit(id);
+        [Authorize(Roles = "Administrator")]
+        [Authorize(Roles = "Owner")]
+        [Authorize(Roles = "Manager")]
+        public async Task<IActionResult> GetAllAdmins()
+        {
+            var allAdmins = await userManager.GetUsersInRoleAsync("Administrator");
 
-        //    return View(model);
-        //}
 
-        //[HttpPost]
-        //public async Task<IActionResult> Edit(UserEditViewModel model)
-        //{
-        //    //var model = await service.GetUserForEdit(id);
+            return View("Users", allAdmins);
+        }
 
-        //    return View(model);
-        //}
+        public async Task<IActionResult> ManageUsers()
+        {
+            //var users = await service.GetUsers();
+
+            return View();
+        }
+
+        public async Task<IActionResult> Edit(string id)
+        {
+            var idetityUser = await userManager.FindByIdAsync(id);
+            var roles = await userManager.GetRolesAsync(idetityUser);
+
+            var model = new UserEditViewModel()
+            {
+                FirstName = idetityUser.FirstName ?? idetityUser.Email,
+                LastName = idetityUser.LastName ?? idetityUser.Email,
+                Roles = roles
+            };
+
+            return View(model);
+        }
+
+        [HttpPost]
+        public async Task<IActionResult> Edit(UserEditViewModel model)
+        {
+            //var model = await service.GetUserForEdit(id);
+
+            return View();
+        }
     }
 }
