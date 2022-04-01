@@ -38,7 +38,6 @@ builder.Services.Configure<IdentityOptions>(options =>
     options.User.AllowedUserNameCharacters =
     "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789-._@+";
     options.User.RequireUniqueEmail = true;
-
 }
 );
 
@@ -50,7 +49,7 @@ builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IValidatorService, ValidatorService>();
 builder.Services.AddScoped(typeof(IUserManager<>), typeof(UserManagerWrapper<>));
 builder.Services.AddScoped(typeof(IRoleManager<>), typeof(RoleManagerWrapper<>));
-builder.Services.AddScoped<ICreateRolesProvider, CreateRolesProvider>();
+builder.Services.AddScoped<IRolesProvider, RolesProvider>();
 
 // Global Automatically validate antiforgery tokens for unsafe HTTP methods only
 builder.Services.AddControllersWithViews(options =>
