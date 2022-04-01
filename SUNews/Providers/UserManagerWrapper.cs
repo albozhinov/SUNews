@@ -18,11 +18,17 @@
 
         public UserManager<T> Instance => this._userManager;
 
+        public async Task<T> FindByIdAsync(string userId) =>
+                                        await this._userManager.FindByIdAsync(userId);
+
         public async Task<IdentityResult> AddPasswordAsync(T user, string password) =>
                                         await this._userManager.AddPasswordAsync(user, password);
 
         public async Task<IdentityResult> AddToRoleAsync(T user, string role) =>
                                         await this._userManager.AddToRoleAsync(user, role);
+
+        public async Task<IdentityResult> AddToRolesAsync(T user, IEnumerable<string> roles) =>
+                                        await this._userManager.AddToRolesAsync(user, roles);
 
         public async Task<IList<string>> GetRolesAsync(T user) => await this._userManager.GetRolesAsync(user);
 
@@ -43,8 +49,16 @@
         public async Task<IdentityResult> SetLockoutEndDateAsync(T user, DateTimeOffset? lockoutEnd) =>
                                         await this._userManager.SetLockoutEndDateAsync(user, lockoutEnd);
 
-        public async Task<string> GetEmailAsync(T user) => 
+        public async Task<string> GetEmailAsync(T user) =>
                                         await this._userManager.GetEmailAsync(user);
-        
+
+        public async Task<IdentityResult> RemoveFromRolesAsync(T user, IEnumerable<string> roles) =>
+                                        await this._userManager.RemoveFromRolesAsync(user, roles);
+
+        public async Task<IList<T>> GetUsersInRoleAsync(string role) =>
+                                        await this._userManager.GetUsersInRoleAsync(role);
+
+        public async Task<bool> IsLockedOutAsync(T user) =>
+                                        await this._userManager.IsLockedOutAsync(user);
     }
 }
