@@ -44,7 +44,6 @@ builder.Services.Configure<IdentityOptions>(options =>
 builder.Services.AddScoped<IRepository, Repository>();
 builder.Services.AddScoped<IArticleService, ArticleService>();
 builder.Services.AddScoped<ICategoryService, CategoryService>();
-builder.Services.AddScoped<IUserService, UserService>();
 builder.Services.AddScoped<ICommentService, CommentService>();
 builder.Services.AddScoped<IValidatorService, ValidatorService>();
 builder.Services.AddScoped(typeof(IUserManager<>), typeof(UserManagerWrapper<>));
