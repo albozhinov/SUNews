@@ -42,7 +42,11 @@
             return new DetailsOfArticlesServiceModel(article);
         }
 
-        public async Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title, string content, string imageUrl, string authorName, ICollection<string> categories)
+        public async Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title, 
+                                                                            string content,
+                                                                            string imageUrl, 
+                                                                            string authorName, 
+                                                                            ICollection<string> categories)
         {
             validator.NullOrWhiteSpacesCheck(title);
             validator.NullOrWhiteSpacesCheck(content);
