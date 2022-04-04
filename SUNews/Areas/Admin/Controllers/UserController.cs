@@ -13,17 +13,14 @@
     [Authorize(Roles = "Administrator")]
     public class UserController : Controller
     {
-        private readonly IUserService userSerivce;
         private readonly IRoleManager<IdentityRole> roleManager;
         private readonly IUserManager<User> userManager;
         private readonly IRolesProvider createRolesProvider;
 
-        public UserController(IUserService _userService,
-                              IRoleManager<IdentityRole> _roleManager,
+        public UserController(IRoleManager<IdentityRole> _roleManager,
                               IUserManager<User> _userManager,
         IRolesProvider _createRolesProvider)
         {
-            userSerivce = _userService;
             roleManager = _roleManager;
             userManager = _userManager;
             createRolesProvider = _createRolesProvider;
@@ -59,24 +56,25 @@
         [Authorize(Roles = "Administrator, Owner, Manager")]
         public async Task<IActionResult> GetAllUsers()
         {
-            var allUsers = await userManager.GetUsersInRoleAsync("User");
-            var model = allUsers.Select(u => new AllUsersViewModel(u) { Role = "User"}).ToList();
+            var allUsers = userManager.Users.ToList();
+
+            var model = allUsers.Select(u => new AllUsersViewModel(u)).ToList();
 
             return View("Users", model);
         }
 
-        [Authorize(Roles = "Administrator")]
-        [Authorize(Roles = "Owner")]
-        [Authorize(Roles = "Manager")]
-        public async Task<IActionResult> GetAllAdmins()
-        {
-            var allAdmins = await userManager.GetUsersInRoleAsync("Administrator");
+        //[Authorize(Roles = "Administrator")]
+        //[Authorize(Roles = "Owner")]
+        //[Authorize(Roles = "Manager")]
+        //public async Task<IActionResult> GetAllAdmins()
+        //{
+        //    var allAdmins = await userManager.GetUsersInRoleAsync("Administrator");
 
 
-            return View("Users", allAdmins);
-        }
+        //    return View("Users", allAdmins);
+        //}
 
-        public async Task<IActionResult> ManageUsers()
+        public async Task<IActionResult> DetailOfUser(string userId)
         {
             //var users = await service.GetUsers();
 
