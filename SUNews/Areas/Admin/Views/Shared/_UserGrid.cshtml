@@ -8,37 +8,50 @@
 <td>
     <ul class="list-inline">
         <li class="list-inline-item">
-            @Model.Role
-        </li>
-    </ul>
-</td>
-<td>
-    <ul class="list-inline">
-        <li class="list-inline-item">
             @Model.Email
         </li>
     </ul>
 </td>
+<td>
+    
+</td>
 <td class="project-state">
-    <span class="badge badge-success">Unlocked</span>
+    @{
+        if (!Model.LockoutEnabled)
+        {
+            <span class="badge badge-danger">Locked</span>
+            <br />
+            <small> till @Model.LockoutEnd </small>
+        }
+        else
+        {
+            <span class="badge badge-success">Unlocked</span>
+        }
+    }
 </td>
 <td class="project-actions text-right">
     <a class="btn btn-primary btn-sm" href="#">
-        <i class="fas fa-folder">
-        </i>
-        View
+        <i class="fas fa-user"></i>
+        Profile
     </a>
     <a class="btn btn-info btn-sm" href="#">
-        <i class="fas fa-pencil-alt">
-        </i>
+        <i class="fas fa-user-edit"></i>
         Edit
     </a>
-    <a class="btn btn-success btn-sm" href="#">
-        <i class="fas fa-lock-open"></i>
-        Unlock
-    </a>
-    <a class="btn btn-danger btn-sm" href="#">
-        <i class="fas fa-lock"></i>
-        Lock
-    </a>
+    @{
+        if (!Model.LockoutEnabled)
+        {
+            <a class="btn btn-success btn-sm" href="#">
+                <i class="fas fa-lock-open"></i>
+                Unlock
+            </a>
+        }
+        else
+        {
+            <a class="btn btn-danger btn-sm" href="#">
+                <i class="fas fa-lock"></i>
+                Lock
+            </a>
+        }
+    }
 </td>
