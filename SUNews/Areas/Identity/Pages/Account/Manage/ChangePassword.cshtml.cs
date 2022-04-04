@@ -43,6 +43,8 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
+        public string ToastrMessage { get; set; } = "SuccessMessage";
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -119,7 +121,7 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
             }
 
             await _signInManager.RefreshSignInAsync(user);
-            _logger.LogInformation("User changed their password successfully.");
+            _logger.LogInformation("User changed their password successfully.");            
             StatusMessage = "Your password has been changed.";
 
             return RedirectToPage();
