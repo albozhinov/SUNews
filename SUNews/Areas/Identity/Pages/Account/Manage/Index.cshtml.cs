@@ -113,8 +113,6 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
-                ToastrMessage = "ErrorMessage";
-                StatusMessage = "Opravi si greshkite be pich!";
                 await LoadAsync(user);
                 return Page();
             }
