@@ -31,11 +31,21 @@
                         <form id="registerForm" asp-route-returnUrl="@Model.ReturnUrl" method="post">
                             <div asp-validation-summary="ModelOnly" class="text-danger"></div>
                             <span asp-validation-for="Input.Email" class="text-danger"></span>
+                            <span asp-validation-for="Input.FirstName" class="text-danger"></span>
+                            <span asp-validation-for="Input.LastName" class="text-danger"></span>
                             <span asp-validation-for="Input.Password" class="text-danger"></span>
                             <span asp-validation-for="Input.ConfirmPassword" class="text-danger"></span>
-                            <div class="form-group first">
+                            <div class="form-group last mb-3">
                                 <label asp-for="Input.Email" class="form-label">Email</label>
                                 <input asp-for="Input.Email" autocomplete="username" aria-required="true" type="text" class="form-control" id="username" />
+                            </div>
+                            <div class="form-group last mb-3">
+                                <label asp-for="Input.FirstName" class="form-label">First name</label>
+                                <input asp-for="Input.FirstName" autocomplete="firstname" aria-required="true" type="text" class="form-control" id="firstname" />
+                            </div>
+                            <div class="form-group last mb-3">
+                                <label asp-for="Input.LastName" class="form-label">Last name</label>
+                                <input asp-for="Input.LastName" autocomplete="lastname" aria-required="true" type="text" class="form-control" id="lastname" />
                             </div>
                             <div class="form-group last mb-3">
                                 <label asp-for="Input.Password" class="form-label" for="password">Password</label>
