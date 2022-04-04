@@ -10,6 +10,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using SUNews.Data.Models;
+using SUNews.Services.Constants;
 
 namespace SUNews.Areas.Identity.Pages.Account.Manage
 {
@@ -39,6 +40,8 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
         [TempData]
         public string StatusMessage { get; set; }
 
+        public string ToastrMessage { get; set; } = "SuccessMessage";
+
         /// <summary>
         ///     This API supports the ASP.NET Core Identity default UI infrastructure and is not intended to be used
         ///     directly from your code. This API may change or be removed in future releases.
@@ -59,6 +62,18 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
             [Phone]
             [Display(Name = "Phone number")]
             public string PhoneNumber { get; set; }
+
+            [Required]
+            [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "{0} can contains only letters.")]
+            [StringLength(30, MinimumLength = 3)]
+            [Display(Name = "First name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "{0} can contains only letters.")]
+            [StringLength(30, MinimumLength = 3)]
+            [Display(Name = "Last name")]
+            public string LastName { get; set; }
         }
 
         private async Task LoadAsync(User user)
@@ -70,7 +85,9 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
 
             Input = new InputModel
             {
-                PhoneNumber = phoneNumber
+                PhoneNumber = phoneNumber,
+                FirstName = user.FirstName,
+                LastName = user.LastName,                
             };
         }
 
@@ -96,6 +113,8 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
 
             if (!ModelState.IsValid)
             {
+                ToastrMessage = "ErrorMessage";
+                StatusMessage = "Opravi si greshkite be pich!";
                 await LoadAsync(user);
                 return Page();
             }
@@ -106,9 +125,22 @@ namespace SUNews.Areas.Identity.Pages.Account.Manage
                 var setPhoneResult = await _userManager.SetPhoneNumberAsync(user, Input.PhoneNumber);
                 if (!setPhoneResult.Succeeded)
                 {
+                    ToastrMessage = "ErrorMessage";
                     StatusMessage = "Unexpected error when trying to set phone number.";
                     return RedirectToPage();
                 }
+            }
+
+            user.FirstName = Input.FirstName;
+            user.LastName = Input.LastName;
+
+            
+            var isUpdated = await _userManager.UpdateAsync(user);
+            if (!isUpdated.Succeeded)
+            {
+                ToastrMessage = "ErrorMessage";
+                StatusMessage = "Unexpected error when trying to set first name and last name.";
+                return RedirectToPage();
             }
 
             await _signInManager.RefreshSignInAsync(user);
