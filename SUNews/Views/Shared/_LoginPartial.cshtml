@@ -9,25 +9,29 @@
         <li class="nav-item">
             <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Manage/Index" title="Manage">
                 <i class="fas fa-user-cog"></i>
-                Hello @User.Identity?.Name!                
+                Hello @User.Identity?.Name!
             </a>
         </li>
         <li class="nav-item">
-            <form class="form-inline" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })" method="post">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Logout" asp-route-returnUrl="@Url.Action("Index", "Home", new { area = "" })">
                 <i class="fas fa-door-open"></i>
-                <button type="submit" class="nav-link btn btn-link text-dark">Log Out</button>
-            </form>
+                Log Out
+            </a>
         </li>
     }
     else
     {
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Register">
-            <i class="fas fa-user"></i>
-            <button type="submit" class="nav-link btn btn-link text-dark">Register</button>
-        </form>
-        <form class="form-inline" asp-area="Identity" asp-page="/Account/Login">
-            <i class="fas fa-sign-in-alt"></i>
-            <button type="submit" class="nav-link btn btn-link text-dark">Login</button>
-        </form>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Register">
+                <i class="fas fa-user"></i>
+                Register
+            </a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link text-dark" asp-area="Identity" asp-page="/Account/Login">
+                <i class="fas fa-sign-in-alt"></i>
+                Login
+            </a>
+        </li>
     }
 </ul>

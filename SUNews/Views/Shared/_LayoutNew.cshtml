@@ -26,18 +26,21 @@
                 </button>
                 <div class="navbar-collapse collapse d-sm-inline-flex justify-content-between">
                     <ul class="navbar-nav flex-grow-1">
-                        <form class="form-inline" asp-area="" asp-controller="Home" asp-action="Index">
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">
                             <i class="fas fa-home"></i>
-                            <button type="submit" class="nav-link btn btn-link text-dark">Home</button>                            
-                        </form>
-                        <form class="form-inline" asp-area="" asp-controller="Article" asp-action="Index">
+                            Home
+                        </a>
+                        <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="Index">
                             <i class="fas fa-newspaper"></i>
-                            <button type="submit" class="nav-link btn btn-link text-dark">Articles</button>                            
-                        </form>                        
+                            Articles
+                        </a>
                         @if (User.IsInRole("Administrator"))
                         {
                             <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="CreateArticle">CreateArticle</a>
+                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="CreateArticle">
+                                    <i class="fas fa-plus"></i>
+                                    CreateArticle
+                                </a>
                             </li>
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">Admin Dashboard</a>
