@@ -34,7 +34,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasIndex("FollowersId");
 
-                    b.ToTable("AuthorUser");
+                    b.ToTable("AuthorUser", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole", b =>
@@ -216,7 +216,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Articles");
+                    b.ToTable("Articles", (string)null);
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.ArticleCategory", b =>
@@ -231,7 +231,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasIndex("ArticleId");
 
-                    b.ToTable("ArticleCategories");
+                    b.ToTable("ArticleCategories", (string)null);
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.Author", b =>
@@ -247,7 +247,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Authors");
+                    b.ToTable("Authors", (string)null);
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.Category", b =>
@@ -263,7 +263,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("Categories");
+                    b.ToTable("Categories", (string)null);
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.Comment", b =>
@@ -298,7 +298,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Comments");
+                    b.ToTable("Comments", (string)null);
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.CommentReview", b =>
@@ -316,7 +316,7 @@ namespace SUNews.Data.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("CommentReviews");
+                    b.ToTable("CommentReviews", (string)null);
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.User", b =>
