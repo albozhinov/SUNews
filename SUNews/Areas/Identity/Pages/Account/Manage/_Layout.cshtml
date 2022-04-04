@@ -8,10 +8,10 @@
         Layout = "/Areas/Identity/Pages/_Layout.cshtml";
     }
 }
+    
+<h1><i class="fas fa-user-cog"></i> <br />Manage your account</h1>
 
-<h1>Manage your account</h1>
-
-<div>
+<div>    
     <h2>Change your account settings</h2>
     <hr />
     <div class="row">
@@ -25,5 +25,8 @@
 </div>
 
 @section Scripts {
-    @RenderSection("Scripts", required: false)
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+    <script src="~/js/adminlte.min.js"></script>
+    <script src="~/plugins/toastr/toastr.min.js"></script>
+    @RenderSection("Scripts", required: false)    
 }
