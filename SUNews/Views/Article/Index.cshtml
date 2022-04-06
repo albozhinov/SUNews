@@ -1,7 +1,5 @@
 ﻿@model IEnumerable<AllArticlesServiceModel>
 
-
-
 <section class="content">
     <div class="container-fluid">
         <div class="card card-success">
@@ -10,7 +8,7 @@
                     @foreach (var article in Model)
                     {
 
-                        <partial name="AllArticles" model="@article" />
+                        <partial name="_AllArticles" model="@article" />
                     }
                 </div>
             </div>
