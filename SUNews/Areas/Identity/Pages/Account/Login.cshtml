@@ -17,58 +17,60 @@
     <link rel="stylesheet" href="~/css/style.css">
 </head>
 <body>
-    <div class="d-lg-flex half">
-        <div class="bg order-1 order-md-2" style="background-image: url(@Url.Content("~/img/bg_1.jpg")"></div>
-        <div class="contents order-2 order-md-1">
-
-            <div class="container">
-                <div class="row align-items-center justify-content-center">
-                    <div class="col-md-7">
-                        <div class="mb-4">
-                            <h3>Sign In</h3>
-                        </div>
-                        <form id="account" method="post">
-                            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
-                            <span asp-validation-for="Input.Email" class="text-danger"></span>
-                            <span asp-validation-for="Input.Password" class="text-danger"></span>
-                            <div class="form-group first">
-                                <label asp-for="Input.Email" class="form-label">Email</label>
-                                <input asp-for="Input.Email" autocomplete="username" aria-required="true" type="text" class="form-control" id="username" />
+    <div class="col-md-10" id="LoginAndRegisterForm">
+        <div class="d-lg-flex half">
+            <div class="bg order-1 order-md-2" style="background-image: url(@Url.Content("~/img/bg_1.jpg")"></div>
+            <div class="contents order-2 order-md-1">
+                <div class="container">
+                    <div class="row align-items-center justify-content-center">
+                        <div class="col-md-7">
+                            <div class="mb-4">
+                                <br />
+                                <h3>Sign In</h3>
                             </div>
-                            <div class="form-group last mb-3">
-                                <label asp-for="Input.Password" class="form-label" for="password">Password</label>
-                                <input asp-for="Input.Password" autocomplete="current-password" aria-required="true" type="password" class="form-control" id="password">
-                            </div>
-                            <div class="d-flex mb-5 align-items-center">
-                                <label class="control control--checkbox mb-0">
-                                    <span class="caption">Remember me</span>
-                                    <input type="checkbox" checked="checked" />
-                                    <div class="control__indicator"></div>
-                                </label>
-                                <span id="forgot-password" class="ml-auto"><a asp-page="./ForgotPassword" class="forgot-pass">Forgot Password</a></span>
-                            </div>
-
-                            <input type="submit" value="Log In" class="btn btn-block btn-primary">
-                        </form>
-
-                        <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
-
-                        <div class="social-login">
-
-                            
-                            <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
-                                <div>
-                                    <!--Facebook Login-->
-                                    <p>
-                                        <button type="submit" class="facebook btn btn-block justify-content-center align-items-center" name="provider" value="Facebook" title="Log in using your Facebook account">Login with Facebook</button>
-                                    </p>
-
-                                    <!--Google Login-->
-                                    <p>
-                                        <button type="submit" class="google btn btn-block justify-content-center align-items-center" name="provider" value="Google" title="Log in using your Facebook account">Login with Google</button>
-                                    </p>
+                            <form id="account" method="post">
+                                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                                <span asp-validation-for="Input.Email" class="text-danger"></span>
+                                <span asp-validation-for="Input.Password" class="text-danger"></span>
+                                <div class="form-group first">
+                                    <label asp-for="Input.Email" class="form-label">Email</label>
+                                    <input asp-for="Input.Email" autocomplete="username" aria-required="true" type="text" class="form-control" id="username" />
                                 </div>
+                                <div class="form-group last mb-3">
+                                    <label asp-for="Input.Password" class="form-label" for="password">Password</label>
+                                    <input asp-for="Input.Password" autocomplete="current-password" aria-required="true" type="password" class="form-control" id="password">
+                                </div>
+                                <div class="d-flex mb-5 align-items-center">
+                                    <label class="control control--checkbox mb-0">
+                                        <span class="caption">Remember me</span>
+                                        <input type="checkbox" checked="checked" />
+                                        <div class="control__indicator"></div>
+                                    </label>
+                                    <span id="forgot-password" class="ml-auto"><a asp-page="./ForgotPassword" class="forgot-pass">Forgot Password</a></span>
+                                </div>
+
+                                <input type="submit" value="Log In" class="btn btn-block btn-primary">
                             </form>
+
+                            <span class="d-block text-center my-4 text-muted">&mdash; or &mdash;</span>
+
+                            <div class="social-login">
+
+
+                                <form id="external-account" asp-page="./ExternalLogin" asp-route-returnUrl="@Model.ReturnUrl" method="post" class="form-horizontal">
+                                    <div>
+                                        <!--Facebook Login-->
+                                        <p>
+                                            <button type="submit" class="facebook btn btn-block justify-content-center align-items-center" name="provider" value="Facebook" title="Log in using your Facebook account">Login with Facebook</button>
+                                        </p>
+
+                                        <!--Google Login-->
+                                        <p>
+                                            <button type="submit" class="google btn btn-block justify-content-center align-items-center" name="provider" value="Google" title="Log in using your Facebook account">Login with Google</button>
+                                        </p>
+                                    </div>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
