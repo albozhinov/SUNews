@@ -24,6 +24,8 @@
 
         public int NumberOfVotes { get; set; }
 
+        public DateTime DateOfCreation { get; init; } = DateTime.Now;
+
         public bool IsDeleted { get; set; } = false;
     }
 }
