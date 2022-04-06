@@ -84,11 +84,9 @@
             return RedirectToAction("Index", "Home", allArticles);
         }
 
-        public async Task<IActionResult> DetailsOfArticle(string articleId)
+        public async Task<IActionResult> DetailsOfArticle(string id)
         {
-            var article = await articleService.DetailsOfArticleAsync(articleId);
-
-            
+            var article = await articleService.DetailsOfArticleAsync(id);            
 
             return View(article);
         }
