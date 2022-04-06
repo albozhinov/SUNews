@@ -18,6 +18,10 @@
 
         public DbSet<ArticleCategory> ArticleCategories { get; set; }
 
+        public DbSet<AuthorUser> AuthorUsers { get; set; }
+
+        public DbSet<Like> Likes { get; set; }
+
         public SUNewsDbContext()
         {
 
@@ -77,6 +81,9 @@
                                       .HasMany(c => c.Articles)
                                       .WithOne(a => a.Category)
                                       .HasForeignKey(a => a.CategoryId);
+
+            builder.Entity<AuthorUser>()
+                                        .HasKey(au => new {au.AuthorId, au.UserId });
 
             base.OnModelCreating(builder);
         }

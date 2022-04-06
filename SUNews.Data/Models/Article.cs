@@ -2,6 +2,7 @@
 {
     using System.Collections.Generic;
     using System.ComponentModel.DataAnnotations;
+    using System.ComponentModel.DataAnnotations.Schema;
     using static DataConstants;
 
     public class Article
@@ -22,9 +23,8 @@
         public string ImageUrl { get; set; }
 
         public int? LikeCount { get; set; }
-
-        [Range(ArticleRatingMin, ArticleRatingMax)]
-        public double? Rating { get; set; }
+                
+        public ICollection<Like> UserLikes { get; set; } = new List<Like>();
 
         public ICollection<Comment> Comments { get; set; } = new List<Comment>();
 

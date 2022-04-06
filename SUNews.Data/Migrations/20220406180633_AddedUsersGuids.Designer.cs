@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SUNews.Data.Context;
 
@@ -11,9 +12,10 @@ using SUNews.Data.Context;
 namespace SUNews.Data.Migrations
 {
     [DbContext(typeof(SUNewsDbContext))]
-    partial class SUNewsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220406180633_AddedUsersGuids")]
+    partial class AddedUsersGuids
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -247,21 +249,6 @@ namespace SUNews.Data.Migrations
                     b.ToTable("Authors");
                 });
 
-            modelBuilder.Entity("SUNews.Data.Models.AuthorUser", b =>
-                {
-                    b.Property<Guid>("AuthorId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .HasColumnType("nvarchar(450)");
-
-                    b.HasKey("AuthorId", "UserId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("AuthorUsers");
-                });
-
             modelBuilder.Entity("SUNews.Data.Models.Category", b =>
                 {
                     b.Property<Guid>("Id")
@@ -324,33 +311,14 @@ namespace SUNews.Data.Migrations
                     b.Property<string>("UserId")
                         .HasColumnType("nvarchar(450)");
 
+                    b.Property<int>("Id")
+                        .HasColumnType("int");
+
                     b.HasKey("CommentId", "UserId");
 
                     b.HasIndex("UserId");
 
                     b.ToTable("CommentReviews");
-                });
-
-            modelBuilder.Entity("SUNews.Data.Models.Like", b =>
-                {
-                    b.Property<int>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"), 1L, 1);
-
-                    b.Property<Guid?>("ArticleId")
-                        .HasColumnType("uniqueidentifier");
-
-                    b.Property<string>("UserId")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("ArticleId");
-
-                    b.ToTable("Likes");
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.User", b =>
@@ -526,25 +494,6 @@ namespace SUNews.Data.Migrations
                     b.Navigation("Category");
                 });
 
-            modelBuilder.Entity("SUNews.Data.Models.AuthorUser", b =>
-                {
-                    b.HasOne("SUNews.Data.Models.Author", "Author")
-                        .WithMany()
-                        .HasForeignKey("AuthorId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.HasOne("SUNews.Data.Models.User", "User")
-                        .WithMany()
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Author");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("SUNews.Data.Models.Comment", b =>
                 {
                     b.HasOne("SUNews.Data.Models.Article", "Article")
@@ -583,20 +532,11 @@ namespace SUNews.Data.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("SUNews.Data.Models.Like", b =>
-                {
-                    b.HasOne("SUNews.Data.Models.Article", null)
-                        .WithMany("UserLikes")
-                        .HasForeignKey("ArticleId");
-                });
-
             modelBuilder.Entity("SUNews.Data.Models.Article", b =>
                 {
                     b.Navigation("Categories");
 
                     b.Navigation("Comments");
-
-                    b.Navigation("UserLikes");
                 });
 
             modelBuilder.Entity("SUNews.Data.Models.Author", b =>
