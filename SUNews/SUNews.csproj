@@ -33,6 +33,7 @@
   <ItemGroup>
     <Folder Include="Views\Comment\" />
     <Folder Include="Views\Author\" />
+    <Folder Include="wwwroot\plugins\dropzone\min\" />
   </ItemGroup>
 
 </Project>
