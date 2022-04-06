@@ -112,7 +112,9 @@
             // Here maybe do somthing beteer... In UI we have "Show more" button who get Comment -> Comment
             var dbArticle = await repository.All<Article>()
                                                     .Include(artA => artA.Author)
-                                                    .Include(artC => artC.Categories)                                                        
+                                                    .Include(artC => artC.Categories)
+                                                    .Include(artCom => artCom.Comments)
+                                                        .ThenInclude(com => com.Ratings)
                                                     .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
 
             if (dbArticle == null)
@@ -130,6 +132,7 @@
                                                  .ThenInclude(c => c.Category)
                                                  .Select(a => new Article()
                                                  {
+                                                     Id = a.Id,
                                                      Title = a.Title,
                                                      DateOfCreation = a.DateOfCreation,
                                                      ImageUrl = a.ImageUrl,
