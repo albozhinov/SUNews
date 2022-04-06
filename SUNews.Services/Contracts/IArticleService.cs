@@ -11,7 +11,7 @@
 
         Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId);
 
-        Task<DetailsOfArticlesServiceModel> RateArticleAsync(string articleId, double rating);
+        Task<DetailsOfArticlesServiceModel> LikeArticleAsync(string articleId, string userId);
 
         Task<DetailsOfArticlesServiceModel> ArticleComments(string articleId, string comment);
     }

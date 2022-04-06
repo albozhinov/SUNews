@@ -86,19 +86,21 @@
 
         public async Task<CommentReview> LikeCommentReviewAsync(int commentReviewId)
         {
-            var commentReviewToLiked = await repository.All<CommentReview>()
-                                        .Include(cr => cr.Comment)
-                                        .FirstOrDefaultAsync(c => c.Id == commentReviewId);
 
-            if (commentReviewToLiked == null)
-                throw new ArgumentException(ErrorCommentID);
+            throw new NotImplementedException();
+            //var commentReviewToLiked = await repository.All<CommentReview>()
+            //                            .Include(cr => cr.Comment)
+            //                            .FirstOrDefaultAsync(c => c.Id == commentReviewId);
 
-            commentReviewToLiked.Comment.NumberOfVotes++;
+            //if (commentReviewToLiked == null)
+            //    throw new ArgumentException(ErrorCommentID);
 
-            repository.Update(commentReviewToLiked);
-            await repository.SaveAsync();
+            //commentReviewToLiked.Comment.NumberOfVotes++;
 
-            return commentReviewToLiked;
+            //repository.Update(commentReviewToLiked);
+            //await repository.SaveAsync();
+
+            //return commentReviewToLiked;
         }
 
         public async Task<CommentReview> AddReviewToCommentAsync(int commentId, string userId, string reviviewText)

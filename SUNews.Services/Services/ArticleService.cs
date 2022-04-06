@@ -16,16 +16,16 @@
     public class ArticleService : IArticleService
     {
         private readonly IRepository repository;
-        private readonly IValidatorService validator;        
+        private readonly IValidatorService validator;
 
         public ArticleService(IRepository _repository, IValidatorService validatorService)
         {
             this.repository = _repository;
             validator = validatorService;
         }
-        
+
         public async Task<DetailsOfArticlesServiceModel> ArticleComments(string articleId, string commentText)
-        {            
+        {
             validator.NullOrWhiteSpacesCheck(commentText);
             (bool, Guid) isValidId = validator.TryParseGuid(articleId);
 
@@ -42,10 +42,10 @@
             return new DetailsOfArticlesServiceModel(article);
         }
 
-        public async Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title, 
+        public async Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title,
                                                                             string content,
-                                                                            string imageUrl, 
-                                                                            string authorName, 
+                                                                            string imageUrl,
+                                                                            string authorName,
                                                                             ICollection<string> categories)
         {
             validator.NullOrWhiteSpacesCheck(title);
@@ -136,7 +136,6 @@
                                                      Title = a.Title,
                                                      DateOfCreation = a.DateOfCreation,
                                                      ImageUrl = a.ImageUrl,
-                                                     Rating = a.Rating,
                                                      Categories = a.Categories,
                                                      Author = a.Author
                                                  })
@@ -145,28 +144,43 @@
             return allDBArticles.Select(a => new AllArticlesServiceModel(a)).ToList();
         }
 
-        public async Task<DetailsOfArticlesServiceModel> RateArticleAsync(string articleId, double rating)
+        public async Task<DetailsOfArticlesServiceModel> LikeArticleAsync(string articleId, string userId)
         {
             (bool, Guid) isValidId = validator.TryParseGuid(articleId);
 
             if (!isValidId.Item1)
                 throw new ArgumentNullException(ArticleNotFound);
 
-            var article = await repository.All<Article>().FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
+            var article = await repository.All<Article>()
+                                                        .Include(a => a.UserLikes)
+                                                        .Include(a => a.Author)
+                                                        .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
 
-            if (article == null)
+            var isUserExists = await repository.All<User>().AnyAsync(u => u.Id == userId);
+
+            if (article == null || !isUserExists)
                 throw new ArgumentException(ArticleNotFound);
 
-            if (article.Rating == null)
+            var userLikedArticle = article.UserLikes.FirstOrDefault(u => u.UserId == userId);
+
+            if (userLikedArticle != null)
             {
-                article.Rating = rating;
+                article.LikeCount--;
+                article.UserLikes.Remove(userLikedArticle);
+            }
+            else
+            {
+                article.LikeCount = article.LikeCount ?? 0;
+                article.LikeCount++;
+
+                var userToAdd = new Like()
+                {
+                    UserId = userId,                    
+                };
+
+                article.UserLikes.Add(userToAdd);
             }
 
-            article.Rating = (rating + article.Rating) / 2;
-
-            article.LikeCount += 1;
-
-            validator.ValidateModel(article);
 
             repository.Update(article);
             await repository.SaveAsync();
