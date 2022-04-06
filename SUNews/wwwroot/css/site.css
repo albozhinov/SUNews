@@ -16,3 +16,19 @@ html {
 /*body {
   margin-bottom: 60px;
 }*/
+
+textarea {
+    resize: none;
+}
+
+#CreateArticleForm {
+    margin: auto;
+}
+
+#CreateCategoryForm {
+    margin: auto;
+}
+
+#LoginAndRegisterForm{
+    margin: auto;
+}
