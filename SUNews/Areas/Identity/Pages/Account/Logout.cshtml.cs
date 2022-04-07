@@ -30,7 +30,7 @@ namespace SUNews.Areas.Identity.Pages.Account
             _logger.LogInformation("User logged out.");
             if (returnUrl != null)
             {
-                return Redirect("/Home/Index");
+                return Redirect("/Article/Index");
             }
             else
             {
