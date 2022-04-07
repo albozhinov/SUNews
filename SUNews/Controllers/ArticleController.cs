@@ -36,7 +36,7 @@
         [Authorize(Roles = "Administrator")]
         public async Task<IActionResult> CreateArticle()
         {
-            var allCategories = await categoryService.GetAllCategories();
+            var allCategories = await categoryService.GetAllCategoriesAsync();
 
             var selectListItems = allCategories
                                     .Select(c => new SelectListItem { Text = c.Name, })
@@ -82,19 +82,18 @@
             }
         }
 
-        public async Task<IActionResult> AllArticles()
+        public  IActionResult AllArticles()
         {
-            var allArticles = await articleService.GetAllArticlesAsync();
-
-
-            return RedirectToAction("Index", "Home", allArticles);
+            return RedirectToAction("Index", "Home");
         }
 
+        [Authorize]
         public async Task<IActionResult> DetailsOfArticle(string id)
         {
-            var article = await articleService.DetailsOfArticleAsync(id);            
+            var article = await articleService.DetailsOfArticleAsync(id);
+            var comment = new CreateCommentViewModel();
 
-            return View(article);
+            return View(new ArticleAndCommentsViewModel() { DetailsOfArticlesServiceModel = article, CreateCommentViewModel = comment });
         }
 
         public async Task<IActionResult> LikeArticle(string id)
