@@ -4,15 +4,16 @@
     using SUNews.Data.Models;
     using SUNews.Data.Repository;
     using SUNews.Services.Contracts;
+    using SUNews.Services.Models.Comment;
     using SUNews.Services.Providers;
     using System;
     using System.Threading.Tasks;
 
+    using static SUNews.Services.Constants.MessageConstant;
+
     public class CommentService : ICommentService
     {
-        private const string ErrorUserID = "User with this ID can't found.";
-        private const string ErrorArticleID = "Article with this ID can't found.";
-        private const string ErrorCommentID = "Article with this ID can't found.";
+        
 
         private readonly IRepository repository;
         private readonly IValidatorService validator;
@@ -23,35 +24,41 @@
             validator = _validator;
         }
 
-        public async Task<Comment> CreateCommentAsync(string commentText, Guid articleId, string userId)
+        public async Task<CommentServiceModel> CreateCommentAsync(string commentText, string articleId, string userId)
         {
             validator.NullOrWhiteSpacesCheck(commentText);
             validator.NullOrWhiteSpacesCheck(userId);
+            validator.NullOrWhiteSpacesCheck(articleId);
 
-            var article = await repository.All<Article>().FirstOrDefaultAsync(a => a.Id == articleId);
+            (bool, Guid) isArticleIdParsed = validator.TryParseGuid(articleId);
+
+            if (!isArticleIdParsed.Item1)
+                throw new ArgumentNullException(ArticleNotFound);
+
+            var article = await repository.All<Article>()
+                                          .FirstOrDefaultAsync(a => a.Id == isArticleIdParsed.Item2);
             if (article == null)
                 throw new ArgumentException(ErrorArticleID);
-
 
             var user = await repository.All<User>().FirstOrDefaultAsync(u => u.Id == userId);
             if (user == null)
                 throw new ArgumentException(ErrorUserID);
 
 
-            var commentToAdded = new Comment()
+            var commentToAdd = new Comment()
             {
                 Text = commentText,
-                ArticleId = articleId,
+                ArticleId = isArticleIdParsed.Item2,
                 Article = article,
                 UserId = userId,
                 User = user
             };
 
-            validator.ValidateModel(commentToAdded);
+            validator.ValidateModel(commentToAdd);
 
-            await repository.AddAsync(commentToAdded);
+            await repository.AddAsync(commentToAdd);
             await repository.SaveAsync();
-            return commentToAdded;
+            return new CommentServiceModel(commentToAdd);
         }
 
         public async Task<bool> DeleteCommentAsync(int commnetId)
