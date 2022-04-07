@@ -28,7 +28,7 @@
 
         public async Task<IActionResult> Index()
         {
-            var articles = await articleService.GetAllArticlesAsync();
+            var articles = await articleService.GetAllArticlesAsync();           
 
             return View(articles);
         }
@@ -71,7 +71,7 @@
                                                         model.AuthorName,
                                                         model.Categories);
 
-                return Redirect("/Home/Index");
+                return Redirect("/Article/Index");
             }
             catch (Exception ex)
             {
@@ -84,7 +84,7 @@
 
         public  IActionResult AllArticles()
         {
-            return RedirectToAction("Index", "Home");
+            return RedirectToAction("Index", "Article");
         }
 
         [Authorize]
