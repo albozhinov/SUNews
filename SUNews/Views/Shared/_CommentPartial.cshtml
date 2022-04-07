@@ -1,0 +1,12 @@
+﻿@model CommentServiceModel
+
+<div class="card-comment">
+    <div class="comment-text">
+        <span class="username">
+            @Model.UserName
+            <span class="text-muted float-right">@Model.DateOfCreation.ToShortTimeString() | @Model.DateOfCreation.ToLongDateString()</span>
+        </span><!-- /.username -->
+        @Model.Text
+    </div>
+    <!-- /.comment-text -->
+</div>
