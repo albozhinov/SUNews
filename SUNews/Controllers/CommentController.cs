@@ -34,5 +34,24 @@ namespace SUNews.Web.Controllers
 
             return RedirectToAction(createCommentViewModel.CurrentAction, createCommentViewModel.CurrentController, new { id = createCommentViewModel.ArticleId });
         }
+
+        [HttpPost]
+        [Authorize(Roles = "Administrator")]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> DeleteComment(int id, string articleId)
+        {
+            try
+            {
+                await commentService.DeleteCommentAsync(id);
+            }
+            catch (Exception)
+            {
+                ViewData["ErrorMessage"] = "Sorry but something went wrong.";
+
+                return RedirectToAction("DetailsOfArticle", "Article", new { id = articleId });
+            }
+
+            return RedirectToAction("DetailsOfArticle", "Article", new { id = articleId });
+        }
     }
 }
