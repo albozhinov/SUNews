@@ -7,17 +7,10 @@
                 <div class="row">
                     @foreach (var article in Model)
                     {
-
-                        <partial name="_AllArticles" model="@article" />
+                        <partial name="_ArticlePartial" model="@article" />
                     }
                 </div>
             </div>
         </div>
     </div>
 </section>
-
-
-
-
-
-
