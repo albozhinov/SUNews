@@ -5,6 +5,7 @@
     using SUNews.Data.Models;
     using SUNews.Data.Repository;
     using SUNews.Services.Contracts;
+    using SUNews.Services.Models;
     using SUNews.Services.Providers;
 
     public class CategoryService : ICategoryService
@@ -18,7 +19,7 @@
             validator = validatorSerivce;
         }
 
-        public async Task<string> CreateCategory(string categoryName)
+        public async Task<string> CreateCategoryAsync(string categoryName)
         {
             validator.NullOrWhiteSpacesCheck(categoryName);
 
@@ -43,12 +44,18 @@
             return categoryToAdd.Name;
         }
 
-        public async Task<IEnumerable<Category>> GetAllCategories()
+        public async Task<IEnumerable<CategoryServiceModel>> GetAllCategoriesAsync()
         {
-            return await repository.All<Category>()
+            var allDbCategories = await repository.All<Category>()
                                                 .Include(c => c.Articles)
                                                 .ThenInclude(a => a.Article)
                                                 .ToListAsync();
+
+            var categoriesSM = allDbCategories
+                                        .Select(c => new CategoryServiceModel(c))
+                                        .ToList();
+
+            return categoriesSM;
         }
     }
 }
