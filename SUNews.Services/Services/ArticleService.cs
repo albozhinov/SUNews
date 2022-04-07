@@ -97,7 +97,7 @@
             var dbArticle = await repository.All<Article>()
                                                     .Include(artA => artA.Author)
                                                     .Include(artC => artC.Categories)
-                                                    .Include(artCom => artCom.Comments)
+                                                    .Include(artCom => artCom.Comments.Where(c => !c.IsDeleted))
                                                         .ThenInclude(com => com.User)
                                                     .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
 
