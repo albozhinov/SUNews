@@ -20,7 +20,7 @@
     <div class="card-footer card-comments">
         
         @foreach (var comment in Model.DetailsOfArticlesServiceModel.Comments)
-        {
+        {            
             <partial name="_CommentPartial" model="comment" />
         }
 
@@ -28,6 +28,7 @@
     </div>
     <!-- /.card-footer -->
     <div class="card-footer">
+    <hr />
         <label class="form-label  text-muted">Comment:</label>
         <form asp-area="" asp-controller="Comment" asp-action="CreateComment" method="post">
             <div class="img-push">
