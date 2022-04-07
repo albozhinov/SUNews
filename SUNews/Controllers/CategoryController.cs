@@ -37,7 +37,7 @@ namespace SUNews.Web.Controllers
             try
             {
                 //Here we have category name and can return to view!
-                var categoryToAdd = await categoryService.CreateCategory(categoryName);
+                var categoryToAdd = await categoryService.CreateCategoryAsync(categoryName);
 
             }
             catch (Exception ex)
@@ -52,7 +52,7 @@ namespace SUNews.Web.Controllers
 
         public async Task<IActionResult> AllCategories()
         {
-            var categories = await categoryService.GetAllCategories();
+            var categories = await categoryService.GetAllCategoriesAsync();
 
 
             return View(categories);
