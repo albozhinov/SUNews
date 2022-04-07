@@ -61,7 +61,7 @@
             return new CommentServiceModel(commentToAdd);
         }
 
-        public async Task<bool> DeleteCommentAsync(int commnetId)
+        public async Task DeleteCommentAsync(int commnetId)
         {
             var commentToDeleted = await repository.All<Comment>().FirstOrDefaultAsync(c => c.Id == commnetId);
 
@@ -73,7 +73,7 @@
             repository.Update(commentToDeleted);
             await repository.SaveAsync();
 
-            return true;
+            return;
         }
 
         public async Task<Comment> LikeCommentAsync(int commentId)
