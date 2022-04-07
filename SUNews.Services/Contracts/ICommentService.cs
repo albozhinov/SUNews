@@ -8,7 +8,7 @@
     {
         Task<CommentServiceModel> CreateCommentAsync(string commentText, string articleId, string userId);
 
-        Task<bool> DeleteCommentAsync(int commentId);
+        Task DeleteCommentAsync(int commentId);
 
         Task<Comment> LikeCommentAsync(int commentId);
 
