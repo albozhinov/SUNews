@@ -24,24 +24,6 @@
             validator = validatorService;
         }
 
-        public async Task<DetailsOfArticlesServiceModel> ArticleComments(string articleId, string commentText)
-        {
-            validator.NullOrWhiteSpacesCheck(commentText);
-            (bool, Guid) isValidId = validator.TryParseGuid(articleId);
-
-            if (!isValidId.Item1)
-                throw new ArgumentNullException(ArticleNotFound);
-
-            var article = await repository.All<Article>()
-                                                        .Where(a => a.Id == isValidId.Item2)
-                                                        .Include(artCom => artCom.Comments)
-                                                            .ThenInclude(com => com.Ratings)
-                                                        .FirstOrDefaultAsync();
-
-
-            return new DetailsOfArticlesServiceModel(article);
-        }
-
         public async Task<DetailsOfArticlesServiceModel> CreateArticleAsync(string title,
                                                                             string content,
                                                                             string imageUrl,
@@ -104,6 +86,8 @@
 
         public async Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId)
         {
+            validator.NullOrWhiteSpacesCheck(articleId);
+
             (bool, Guid) isValidId = validator.TryParseGuid(articleId);
 
             if (!isValidId.Item1)
@@ -114,7 +98,7 @@
                                                     .Include(artA => artA.Author)
                                                     .Include(artC => artC.Categories)
                                                     .Include(artCom => artCom.Comments)
-                                                        .ThenInclude(com => com.Ratings)
+                                                        .ThenInclude(com => com.User)
                                                     .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
 
             if (dbArticle == null)
@@ -146,6 +130,9 @@
 
         public async Task<DetailsOfArticlesServiceModel> LikeArticleAsync(string articleId, string userId)
         {
+            validator.NullOrWhiteSpacesCheck(articleId);
+            validator.NullOrWhiteSpacesCheck(userId);
+
             (bool, Guid) isValidId = validator.TryParseGuid(articleId);
 
             if (!isValidId.Item1)
