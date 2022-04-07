@@ -5,6 +5,25 @@ namespace SUNews.Services.Models
 {
     public class DetailsOfArticlesServiceModel
     {
+        public DetailsOfArticlesServiceModel()
+        {
+
+        }
+
+        public DetailsOfArticlesServiceModel(Article model)
+        {
+            Id = model.Id;
+            Content = model.Content;
+            Title = model.Title;
+            ImageUrl = model.ImageUrl;
+            Likes = model.LikeCount ?? 0;
+            Comments = model.Comments.Select(c => new CommentServiceModel(c)).ToList();
+            AuthorId = model.AuthorId;
+            AuthorName = model.Author.Name;
+            DateOfCreation = model.DateOfCreation;
+            Categories = model.Categories;
+        }
+
         public Guid Id { get; init; }
 
         public string Content { get; init; }
@@ -24,25 +43,5 @@ namespace SUNews.Services.Models
         public DateTime DateOfCreation { get; init; }
 
         public IEnumerable<ArticleCategory> Categories { get; set; } = new List<ArticleCategory>();
-
-
-        public DetailsOfArticlesServiceModel()
-        {
-
-        }
-
-        public DetailsOfArticlesServiceModel(Article model)
-        {
-            Id = model.Id;
-            Content = model.Content;
-            Title = model.Title;
-            ImageUrl = model.ImageUrl;
-            Likes = model.LikeCount ?? 0;
-            Comments = model.Comments.Select(c => new CommentServiceModel(c)).ToList();
-            AuthorId = model.AuthorId;
-            AuthorName = model.Author.Name;
-            DateOfCreation = model.DateOfCreation;
-            Categories = model.Categories;
-        }
     }
 }

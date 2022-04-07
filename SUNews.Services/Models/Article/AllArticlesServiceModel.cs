@@ -4,6 +4,22 @@ namespace SUNews.Services.Models
 {
     public class AllArticlesServiceModel
     {
+        public AllArticlesServiceModel()
+        {
+
+        }
+
+        public AllArticlesServiceModel(Article model)
+        {
+            Id = model.Id;
+            Title = model.Title;
+            ImageUrl = model.ImageUrl;
+            AuthorName = model.Author.Name;
+            DateOfCreation = model.DateOfCreation;
+            //Categories = model.Categories.Select(c => new CategoryViewModel(c.Category)).ToList();
+            Likes = model.LikeCount ?? 0;
+        }
+
         public Guid Id { get; init; }
 
         public string Title { get; init; }
@@ -17,16 +33,5 @@ namespace SUNews.Services.Models
         public DateTime DateOfCreation { get; init; }
 
         public IEnumerable<CategoryServiceModel> Categories { get; set; }
-
-        public AllArticlesServiceModel(Article model)
-        {
-            Id = model.Id;
-            Title = model.Title;
-            ImageUrl = model.ImageUrl;
-            AuthorName = model.Author.Name;
-            DateOfCreation = model.DateOfCreation;
-            //Categories = model.Categories.Select(c => new CategoryViewModel(c.Category)).ToList();
-            Likes = model.LikeCount ?? 0;
-        }
     }
 }
