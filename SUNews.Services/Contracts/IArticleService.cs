@@ -12,7 +12,5 @@
         Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId);
 
         Task<DetailsOfArticlesServiceModel> LikeArticleAsync(string articleId, string userId);
-
-        Task<DetailsOfArticlesServiceModel> ArticleComments(string articleId, string comment);
     }
 }

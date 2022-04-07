@@ -1,12 +1,12 @@
 ﻿namespace SUNews.Services.Contracts
 {
     using SUNews.Data.Models;
-    using System;
+    using SUNews.Services.Models.Comment;
     using System.Threading.Tasks;
 
     public interface ICommentService
     {
-        Task<Comment> CreateCommentAsync(string commentText, Guid articleId, string userId);
+        Task<CommentServiceModel> CreateCommentAsync(string commentText, string articleId, string userId);
 
         Task<bool> DeleteCommentAsync(int commentId);
 
