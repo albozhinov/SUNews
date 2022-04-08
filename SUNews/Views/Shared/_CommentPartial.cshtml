@@ -1,24 +1,36 @@
 ﻿@model CommentServiceModel
 
-<form asp-area="" asp-controller="Comment" asp-action="DeleteComment" method="post">
-    <div class="card-comment">
-        <div class="comment-text">
-            <span class="username">
-                @Model.UserName
-                <span class="text-muted float-right">@Model.DateOfCreation.ToShortTimeString() | @Model.DateOfCreation.ToLongDateString()</span>
-            </span><!-- /.username -->
-            <div id="commentText">
-                @Model.Text
+<div class="card-comment">
+    <div class="comment-text">
+        <span class="username">
+            @Model.UserName
+            <span class="text-muted float-right">@Model.DateOfCreation.ToShortTimeString() | @Model.DateOfCreation.ToLongDateString()</span>
+        </span><!-- /.username -->
+        <div id="commentText">
+            @Model.Text
 
-                @if (User.IsInRole("Administrator"))
-                {
+            @*If comment already reported we do not see report button!*@
+
+            @if (!@Model.IsReported)
+            {
+                <form asp-area="" asp-controller="Comment" asp-action="ReportComment" method="post">
+                    <input name="id" value="@Model.Id" type="hidden" />
+                    <input name="articleId" value="@Model.ArticleId" type="hidden" />
+
+                    <span class="text-muted float-right"><button class="btn btn-default btn-sm" type="submit"><i class="fas fa-exclamation-circle"></i></button></span>
+                </form>
+            }
+
+            @if (User.IsInRole("Administrator"))
+            {
+                <form asp-area="" asp-controller="Comment" asp-action="DeleteComment" method="post">
                     <input name="id" value="@Model.Id" type="hidden" />
                     <input name="articleId" value="@Model.ArticleId" type="hidden" />
 
                     <button class="btn btn-default btn-sm float-right" type="submit">Delete</button>
-                }
-            </div>
+                </form>
+            }
         </div>
-        <!-- /.comment-text -->
     </div>
-</form>
+    <!-- /.comment-text -->
+</div>
