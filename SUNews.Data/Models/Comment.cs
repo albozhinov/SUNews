@@ -27,5 +27,7 @@
         public DateTime DateOfCreation { get; init; } = DateTime.Now;
 
         public bool IsDeleted { get; set; } = false;
+
+        public bool IsReported { get; set; } = false;
     }
 }
