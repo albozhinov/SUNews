@@ -103,5 +103,47 @@
 
             return View();
         }
+
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> LockUser(UserModalModelView input)
+        //{
+        //    var user = userManager.Users.Where(u => u.Id == input.ID).FirstOrDefault();
+        //    if (user is null)
+        //    {
+        //        return this.RedirectToAction(nameof(Index));
+        //    }
+
+        //    var enableLockOutResult = await userManager.SetLockoutEnabledAsync(user, true);
+        //    if (!enableLockOutResult.Succeeded)
+        //    {
+        //        return this.RedirectToAction(nameof(Index));
+        //    }
+        //    var lockoutTimeResult = await userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(10));
+        //    if (!lockoutTimeResult.Succeeded)
+        //    {
+        //        return this.RedirectToAction(nameof(Index));
+        //    }
+        //    return this.RedirectToAction(nameof(Index));
+        //}
+
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> UnlockUser(UserModalModelView input)
+        //{
+        //    var user = userManager.Users.Where(u => u.Id == input.ID).FirstOrDefault();
+        //    if (user is null)
+        //    {
+        //        return this.RedirectToAction(nameof(Index));
+        //    }
+
+        //    var lockoutTimeResult = await userManager.SetLockoutEndDateAsync(user, DateTime.Now);
+        //    if (!lockoutTimeResult.Succeeded)
+        //    {
+        //        return this.RedirectToAction(nameof(Index));
+        //    }
+        //    return this.RedirectToAction(nameof(Index));
+        //}
     }
 }
