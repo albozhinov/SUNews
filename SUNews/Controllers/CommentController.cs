@@ -53,5 +53,24 @@ namespace SUNews.Web.Controllers
 
             return RedirectToAction("DetailsOfArticle", "Article", new { id = articleId });
         }
+
+        [HttpPost]
+        [Authorize]
+        [AutoValidateAntiforgeryToken]
+        public async Task<IActionResult> ReportComment(int id, string articleId)
+        {
+            try
+            {
+                await commentService.ReportCommentAsync(id);
+            }
+            catch (Exception)
+            {
+                ViewData["ErrorMessage"] = "Sorry but something went wrong.";
+
+                return RedirectToAction("DetailsOfArticle", "Article", new { id = articleId });
+            }
+
+            return RedirectToAction("DetailsOfArticle", "Article", new { id = articleId });
+        }
     }
 }
