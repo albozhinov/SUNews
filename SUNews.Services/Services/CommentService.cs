@@ -7,14 +7,13 @@
     using SUNews.Services.Models.Comment;
     using SUNews.Services.Providers;
     using System;
+    using System.Collections.Generic;
     using System.Threading.Tasks;
 
     using static SUNews.Services.Constants.MessageConstant;
 
     public class CommentService : ICommentService
     {
-        
-
         private readonly IRepository repository;
         private readonly IValidatorService validator;
 
@@ -91,62 +90,50 @@
             return commentToLiked;
         }
 
-        public async Task<CommentReview> LikeCommentReviewAsync(int commentReviewId)
+        public async Task ReportCommentAsync(int commentId)
         {
+            var commentToReport = await repository.All<Comment>().FirstOrDefaultAsync(c => c.Id == commentId);
 
-            throw new NotImplementedException();
-            //var commentReviewToLiked = await repository.All<CommentReview>()
-            //                            .Include(cr => cr.Comment)
-            //                            .FirstOrDefaultAsync(c => c.Id == commentReviewId);
-
-            //if (commentReviewToLiked == null)
-            //    throw new ArgumentException(ErrorCommentID);
-
-            //commentReviewToLiked.Comment.NumberOfVotes++;
-
-            //repository.Update(commentReviewToLiked);
-            //await repository.SaveAsync();
-
-            //return commentReviewToLiked;
-        }
-
-        public async Task<CommentReview> AddReviewToCommentAsync(int commentId, string userId, string reviviewText)
-        {
-            validator.NullOrWhiteSpacesCheck(userId);
-            validator.NullOrWhiteSpacesCheck(reviviewText);
-
-            var commentToBeReview = await repository.All<Comment>().FirstOrDefaultAsync(c => c.Id == commentId);
-            if (commentToBeReview == null)
+            if (commentToReport == null)
                 throw new ArgumentException(ErrorCommentID);
 
-            var user = await repository.All<User>().FirstOrDefaultAsync(u => u.Id == userId);
-            if(user == null)
-                throw new ArgumentException(ErrorUserID);
 
-            var newCommentReview = new Comment()
-            {
-                Text = reviviewText,
-                UserId = userId,                
-            };
-            
-            validator.ValidateModel(newCommentReview);
-
-            var reviewToAdded = new CommentReview()
-            {                
-                UserId = userId,
-                CommentId = newCommentReview.Id
-            };
-
-            commentToBeReview.Ratings.Add(reviewToAdded);
-
-
-            //// TODO: Check Update -> Add newCommentReview and reviewToAdded in database!!!!
-            repository.Update(commentToBeReview);
-            //await repository.AddAsync(newCommentReview);
-            //await repository.AddAsync(reviewToAdded);
+            commentToReport.IsReported = true;
+            repository.Update(commentToReport);
             await repository.SaveAsync();
 
-            return reviewToAdded;
+            return;
+        }
+
+        public async Task<ICollection<CommentServiceModel>> GetAllReportedCommentAsync()
+        {
+            return await repository.All<Comment>()
+                                                  .Where(c => c.IsReported && !c.IsDeleted)
+                                                  .Include(c => c.User)
+                                                  .Select(c => new CommentServiceModel()
+                                                  {
+                                                      Id = c.Id,
+                                                      DateOfCreation = c.DateOfCreation,
+                                                      Text = c.Text,
+                                                      UserName = c.User.UserName,
+                                                  })
+                                                  .ToListAsync();
+             
+        }
+
+        public async Task DeleteReportAsync(int commentId)
+        {
+            var reportedComment = await repository.All<Comment>().FirstOrDefaultAsync(c => c.Id == commentId);
+
+            if (reportedComment == null)
+                throw new ArgumentException(ErrorCommentID);
+
+
+            reportedComment.IsReported = false;
+            repository.Update(reportedComment);
+            await repository.SaveAsync();
+
+            return;
         }
     }
 }

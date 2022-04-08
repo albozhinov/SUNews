@@ -40,23 +40,18 @@
             var isExist = await repository.All<Article>().FirstOrDefaultAsync(a => a.Title == title.ToUpper());
 
             if (isExist != null)
-            {
-                return null;
-            }
+                throw new ArgumentException("This article already exists.");
 
             var author = await repository.All<Author>().FirstOrDefaultAsync(a => a.Name.ToLower() == authorName.ToLower());
 
-            ///Автора не се добавя тук.
-            ///Ако не съществува базата данни хвърля грешка
-            ///Бизнес логиката ще бъде автора да е логнат и той да създава статия, тогава 
-            ///в метода CreateArticleAsync ще получаваме и AuthorId параметър.
-            //if (author == null)
-            //{
-            //    author = new Author()
-            //    {
-            //        Name = authorName,
-            //    };
-            //}
+            if (author == null)
+            {
+                author = new Author()
+                {
+                    Name = authorName,
+                };
+                
+            }
 
             var existsCategories = await repository.All<Category>()
                                                 .Where(c => categories.Contains(c.Name))
@@ -75,13 +70,38 @@
                 }).ToList()
             };
 
+            author.Articles.Add(article);
+
             // Here we validate all model's properties constraints
             validator.ValidateModel(article);
 
             await repository.AddAsync(article);
+            await repository.AddAsync(author);
             await repository.SaveAsync();
 
             return new DetailsOfArticlesServiceModel(article);
+        }
+
+        public async Task DeleteArticleAsync(string articleId)
+        {
+            validator.NullOrWhiteSpacesCheck(articleId);
+
+            (bool, Guid) isValidId = validator.TryParseGuid(articleId);
+
+            if (!isValidId.Item1)
+                throw new ArgumentNullException(ArticleNotFound);
+
+            var articleToDelete = await repository.All<Article>().FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
+
+            if (articleToDelete == null)
+                throw new ArgumentException(ErrorCommentID);
+
+            articleToDelete.IsDeleted = true;
+
+            repository.Update(articleToDelete);
+            await repository.SaveAsync();
+
+            return;
         }
 
         public async Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId)
@@ -97,9 +117,10 @@
             var dbArticle = await repository.All<Article>()
                                                     .Include(artA => artA.Author)
                                                     .Include(artC => artC.Categories)
+                                                        .ThenInclude(cat => cat.Category)
                                                     .Include(artCom => artCom.Comments.Where(c => !c.IsDeleted))
                                                         .ThenInclude(com => com.User)
-                                                    .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
+                                                    .FirstOrDefaultAsync(a => a.Id == isValidId.Item2 && !a.IsDeleted);
 
             if (dbArticle == null)
                 throw new ArgumentException(ArticleNotFound);
@@ -108,9 +129,74 @@
             return new DetailsOfArticlesServiceModel(dbArticle);
         }
 
+        public async Task EditArticleAsync(string articleId,
+                                     string title,
+                                     string content,
+                                     string imageUrl,
+                                     string authorName,
+                                     ICollection<string> categories)
+        {
+            validator.NullOrWhiteSpacesCheck(title);
+            validator.NullOrWhiteSpacesCheck(content);
+            validator.NullOrWhiteSpacesCheck(imageUrl);
+            validator.NullOrWhiteSpacesCheck(authorName);
+            validator.NullOrEmptyCollection(categories);
+            validator.NullOrWhiteSpacesCheck(articleId);
+
+
+            (bool, Guid) isValidId = validator.TryParseGuid(articleId);
+
+            if (!isValidId.Item1)
+                throw new ArgumentNullException(ArticleNotFound);
+
+            var article = await repository.All<Article>().Include(a => a.Categories).FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
+
+            if (article == null)
+            {
+                throw new ArgumentNullException(ArticleNotFound);
+            }
+
+            var author = await repository.All<Author>().FirstOrDefaultAsync(a => a.Name.ToLower() == authorName.ToLower());
+
+            if (author == null)
+            {
+                author = new Author()
+                {
+                    Name = authorName,
+                };
+
+                await repository.AddAsync(author);
+            }
+
+            var existsCategories = await repository.All<Category>()
+                                                .Where(c => categories.Contains(c.Name))
+                                                .ToListAsync();
+
+            article.Title = title.ToUpper();
+            article.Content = content;
+            article.ImageUrl = imageUrl;
+            article.AuthorId = author.Id;
+            article.Categories.Clear();
+
+            article.Categories = existsCategories.Select(c => new ArticleCategory()
+            {
+                CategoryId = c.Id,
+
+            }).ToList();
+
+            // Here we validate all model's properties constraints
+            validator.ValidateModel(article);
+
+            repository.Update(article);
+            await repository.SaveAsync();
+
+            return;
+        }
+
         public async Task<ICollection<AllArticlesServiceModel>> GetAllArticlesAsync()
         {
             var allDBArticles = await repository.All<Article>()
+                                                 .Where(a => !a.IsDeleted)
                                                  .Include(a => a.Author)
                                                  .Include(a => a.Categories)
                                                  .ThenInclude(c => c.Category)
@@ -141,7 +227,7 @@
             var article = await repository.All<Article>()
                                                         .Include(a => a.UserLikes)
                                                         .Include(a => a.Author)
-                                                        .FirstOrDefaultAsync(a => a.Id == isValidId.Item2);
+                                                        .FirstOrDefaultAsync(a => a.Id == isValidId.Item2 && !a.IsDeleted);
 
             var isUserExists = await repository.All<User>().AnyAsync(u => u.Id == userId);
 
