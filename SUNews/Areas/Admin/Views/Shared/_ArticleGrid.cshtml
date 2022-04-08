@@ -1,0 +1,31 @@
+﻿@model AllArticlesServiceModel
+
+<td>
+    <a>
+        @Model.Title
+    </a>
+</td>
+<td>
+    <ul class="list-inline text-center">
+        <li class="list-inline-item">
+            @Model.DateOfCreation.ToLongDateString()
+        </li>
+    </ul>
+</td>
+<td class="project-state">
+    <span class="text-center">@Model.AuthorName</span>
+</td>
+<td class="project-actions text-right">
+    <form asp-area="Admin" asp-controller="Article" asp-action="EditArticle" asp-route-id="@Model.Id" method="get">
+        <button type="submit" class="btn btn-info btn-sm">
+            <i class="fas fa-edit"></i>
+            Edit
+        </button>
+    </form>
+    <br />
+    <form asp-area="Admin" asp-controller="Article" asp-action="DeleteArticle" asp-route-id="@Model.Id" method="post">
+        <button type="submit" class="btn btn-danger btn-sm">
+            Delete
+        </button>
+    </form>
+</td>
