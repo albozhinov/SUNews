@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using SUNews.Data.Context;
 
@@ -11,9 +12,10 @@ using SUNews.Data.Context;
 namespace SUNews.Data.Migrations
 {
     [DbContext(typeof(SUNewsDbContext))]
-    partial class SUNewsDbContextModelSnapshot : ModelSnapshot
+    [Migration("20220408112047_AddedIsReportedInComment")]
+    partial class AddedIsReportedInComment
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -195,9 +197,6 @@ namespace SUNews.Data.Migrations
                         .IsRequired()
                         .HasMaxLength(500)
                         .HasColumnType("nvarchar(500)");
-
-                    b.Property<bool>("IsDeleted")
-                        .HasColumnType("bit");
 
                     b.Property<int?>("LikeCount")
                         .HasColumnType("int");
