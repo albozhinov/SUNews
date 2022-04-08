@@ -12,5 +12,14 @@
         Task<DetailsOfArticlesServiceModel> DetailsOfArticleAsync(string articleId);
 
         Task<DetailsOfArticlesServiceModel> LikeArticleAsync(string articleId, string userId);
+
+        Task DeleteArticleAsync(string articleId);
+
+        Task EditArticleAsync(string articleId,
+                              string title,
+                              string content,
+                              string imageUrl,
+                              string authorName,
+                              ICollection<string> categories);
     }
 }

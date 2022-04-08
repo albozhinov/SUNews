@@ -10,10 +10,12 @@
 
         Task DeleteCommentAsync(int commentId);
 
+        Task ReportCommentAsync(int commentId);
+
         Task<Comment> LikeCommentAsync(int commentId);
 
-        Task<CommentReview> AddReviewToCommentAsync(int commentId, string userId, string reviviewText);
+        Task<ICollection<CommentServiceModel>> GetAllReportedCommentAsync();
 
-        Task<CommentReview> LikeCommentReviewAsync(int commentReviewId);
+        Task DeleteReportAsync(int commentId);
     }
 }
