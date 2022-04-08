@@ -23,6 +23,18 @@
                 <li class="nav-item">
                     <a class="nav-link" data-widget="pushmenu" href="#" role="button"><i class="fas fa-bars"></i></a>
                 </li>
+                <li class="nav-item">
+                    <a class="nav-link text-dark" asp-area="Admin" asp-controller="Article" asp-action="CreateArticle">
+                        <i class="fas fa-plus"></i>
+                        CreateArticle
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a asp-area="Admin" asp-controller="Category" asp-action="CreateCategory" class="nav-link text-dark">
+                        <i class="fas fa-hashtag"></i>
+                        Create Category
+                    </a>
+                </li>
             </ul>
 
             <!-- Right navbar links -->
@@ -37,7 +49,7 @@
         <!-- Main Sidebar Container -->
         <aside class="main-sidebar sidebar-dark-primary elevation-4">
             <!-- Brand Logo -->
-            <a asp-area="" asp-controller="Home" asp-action="Index" class="brand-link">                
+            <a asp-area="" asp-controller="Article" asp-action="Index" class="brand-link">
                 <span class="brand-text font-weight-light">My SUNews</span>
             </a>
 
@@ -64,6 +76,7 @@
             <!-- Main content -->
             <div class="content">
                 <div class="container-fluid">
+                    <br />
                     @RenderBody()
                 </div><!-- /.container-fluid -->
             </div>
