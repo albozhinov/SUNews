@@ -1,0 +1,88 @@
+﻿@model EditArticleViewModel
+
+<form asp-area="Admin" asp-controller="Article" asp-action="EditArticle" method="post">
+    <div class="col-md-8" id="CreateArticleForm">
+        <div class="card card-info">
+            <div class="card-header">
+                <h3 class="card-title">Edit Article</h3>
+            </div>
+            <div class="card-body">
+                <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+                <label asp-for="Title"></label>
+                <span asp-validation-for="Title" class="text-danger"></span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-align-justify"></i></span>
+                    </div>
+                    <input asp-for="Title" type="text" class="form-control" placeholder="Title" value="@Model.Title" />
+                </div>
+                <label asp-for="Content" class="form-label"></label>
+                <span asp-validation-for="Content" class="text-danger"></span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-align-left"></i></span>
+                    </div>
+                    <textarea asp-for="Content" type="text" class="form-control" placeholder="Content" rows="4">@Model.Content</textarea>
+                </div>
+                <label asp-for="ImageUrl" class="form-label"></label>
+                <span asp-validation-for="ImageUrl" class="text-danger"></span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-link"></i></span>
+                    </div>
+                    <input asp-for="@Model.ImageUrl" type="ImageUrl" class="form-control" placeholder="ImageUrl" value="@Model.ImageUrl">
+                </div>
+                <label asp-for="AuthorName" class="form-label"></label>
+                <span asp-validation-for="AuthorName" class="text-danger"></span>
+                <div class="input-group mb-3">
+                    <div class="input-group-prepend">
+                        <span class="input-group-text"><i class="fas fa-feather-alt"></i></span>
+                    </div>
+                    <input asp-for="@Model.AuthorName" type="AuthorName" class="form-control" placeholder="Author name" value="@Model.AuthorName">
+                </div>
+
+                @{
+                    if (Model.CategoriesList == null || Model.CategoriesList.Count() == 0)
+                    {
+                        <div>
+                            <a class="btn btn-info" asp-area="" asp-controller="Category" asp-action="CreateCategory" role="button">Create Category</a>
+                        </div>
+                        <br />
+                    }
+                    else
+                    {
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label asp-for="Categories"></label><br />
+                                <select asp-for="Categories" class="js-example-basic-multiple" name="states[]" size=4 multiple="multiple" name="Categories" asp-items="Model.CategoriesList" aria-label="multiple select example" style="width: 100%;"></select>
+                            </div>
+                        </div>
+
+                        <div>
+                            <a class="btn btn-info" asp-area="Admin" asp-controller="Category" asp-action="CreateCategory" role="button">Create Category</a>
+                        </div>
+                    }
+                }
+                <div class="row">
+                    <div class="col-lg-6">
+                    </div>
+                    <!-- /.col-lg-6 -->
+                    <div class="col-lg-6">
+                    </div>
+                    <!-- /.col-lg-6 -->
+                </div>
+            </div>
+
+            <div class="card-footer">
+                <button type="submit" class="btn btn-info float-right">Edit</button>
+            </div>
+        </div>
+        <!-- /.card-body -->
+    </div>
+</form>
+
+@section scripts {
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
+<partial name="_ValidationScriptsPartial" />
+}
