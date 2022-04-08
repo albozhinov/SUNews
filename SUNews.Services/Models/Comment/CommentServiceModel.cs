@@ -17,6 +17,7 @@
             UserId = comment.UserId;
             NumberOfVotes = comment.NumberOfVotes;
             DateOfCreation = comment.DateOfCreation;
+            IsReported = comment.IsReported;
 
             if (string.IsNullOrEmpty(comment.User.FirstName) && string.IsNullOrEmpty(comment.User.LastName))
             {
@@ -41,5 +42,7 @@
         public int NumberOfVotes { get; set; }
 
         public DateTime DateOfCreation { get; init; } = DateTime.Now;
+
+        public bool IsReported { get; set; }
     }
 }
