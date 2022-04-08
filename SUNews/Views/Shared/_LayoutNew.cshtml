@@ -35,13 +35,7 @@
                             Articles
                         </a>*@
                         @if (User.IsInRole("Administrator"))
-                        {
-                            <li class="nav-item">
-                                <a class="nav-link text-dark" asp-area="" asp-controller="Article" asp-action="CreateArticle">
-                                    <i class="fas fa-plus"></i>
-                                    CreateArticle
-                                </a>
-                            </li>
+                        {                            
                             <li class="nav-item">
                                 <a class="nav-link text-dark" asp-area="Admin" asp-controller="Home" asp-action="Index">
                                     <i class="fab fa-adn"></i>
