@@ -57,6 +57,12 @@ builder.Services.AddControllersWithViews(options =>
 })
                 .AddRazorRuntimeCompilation();
 
+// XSS security
+builder.Services.AddSession(options =>
+{
+    options.Cookie.HttpOnly = true;
+});
+
 
 /// <summary>
 /// External login providers authentication
