@@ -12,12 +12,9 @@
         </li>
     </ul>
 </td>
-<td>
-    
-</td>
 <td class="project-state">
     @{
-        if (!Model.LockoutEnabled)
+        if (Model.LockoutEnd is not null)
         {
             <span class="badge badge-danger">Locked</span>
             <br />
@@ -30,28 +27,32 @@
     }
 </td>
 <td class="project-actions text-right">
-    <a class="btn btn-primary btn-sm" href="#">
+    <a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
         <i class="fas fa-user"></i>
         Profile
     </a>
-    <a class="btn btn-info btn-sm" href="#">
+    <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info btn-sm">
         <i class="fas fa-user-edit"></i>
         Edit
     </a>
     @{
-        if (!Model.LockoutEnabled)
+        if (Model.LockoutEnd is not null)
         {
-            <a class="btn btn-success btn-sm" href="#">
-                <i class="fas fa-lock-open"></i>
-                Unlock
-            </a>
+            <form asp-area="Admin" asp-controller="User" asp-action="UnlockUser" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-success btn-sm">
+                    <i class="fas fa-lock-open"></i>
+                    Unlock
+                </button>
+            </form>
         }
         else
         {
-            <a class="btn btn-danger btn-sm" href="#">
-                <i class="fas fa-lock"></i>
-                Lock
-            </a>
+            <form asp-area="Admin" asp-controller="User" asp-action="LockUser" asp-route-id="@Model.Id" method="post">
+                <button type="submit" class="btn btn-danger btn-sm">
+                    <i class="fas fa-lock"></i>
+                    Lock
+                </button>
+            </form>
         }
     }
 </td>
