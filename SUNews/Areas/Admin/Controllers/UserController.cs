@@ -3,19 +3,23 @@
     using Microsoft.AspNetCore.Authorization;
     using Microsoft.AspNetCore.Identity;
     using Microsoft.AspNetCore.Mvc;
+    using Microsoft.AspNetCore.Mvc.Rendering;
     using SUNews.Areas.Admin.Models;
     using SUNews.Data.Models;
     using SUNews.Providers;
     using SUNews.Services.Constants;
     using SUNews.Services.Contracts;
+    using X.PagedList;
 
     [Area("Admin")]
-    [Authorize(Roles = "Administrator, Owner, Manager")]
+    [Authorize(Roles = "Administrator")]
     public class UserController : Controller
     {
         private readonly IRoleManager<IdentityRole> roleManager;
         private readonly IUserManager<User> userManager;
         private readonly IRolesProvider createRolesProvider;
+
+        private readonly int PAGE_SIZE = 3;
 
         public UserController(IRoleManager<IdentityRole> _roleManager,
                               IUserManager<User> _userManager,
@@ -24,6 +28,25 @@
             roleManager = _roleManager;
             userManager = _userManager;
             createRolesProvider = _createRolesProvider;
+        }
+
+
+        public async Task<IActionResult> Index()
+        {
+            var allUsers = userManager.Users.ToList();
+
+            var model = new UserIndexViewModel(allUsers, 1, PAGE_SIZE);
+
+            return View(model);
+        }
+
+        public IActionResult UserGrid(int? page)
+        {
+            var pagedUsers = userManager.Users
+                                         .Select(u => new AllUsersViewModel(u))
+                                         .ToPagedList(page ?? 1, PAGE_SIZE);
+
+            return PartialView("_UserGrid", pagedUsers);
         }
 
         public IActionResult CreateRole()
@@ -50,15 +73,6 @@
             return View();
         }
 
-        [Authorize(Roles = "Administrator, Owner, Manager")]
-        public async Task<IActionResult> Index()
-        {
-            var allUsers = userManager.Users.ToList();
-
-            var model = allUsers.Select(u => new AllUsersViewModel(u)).ToList();
-
-            return View(model);
-        }
 
         //[Authorize(Roles = "Administrator")]
         //[Authorize(Roles = "Owner")]
@@ -92,24 +106,42 @@
         public async Task<IActionResult> Edit(string id)
         {
             var idetityUser = await userManager.FindByIdAsync(id);
-            var roles = await userManager.GetRolesAsync(idetityUser);
 
-            var model = new UserEditViewModel()
-            {
-                FirstName = idetityUser.FirstName ?? idetityUser.Email,
-                LastName = idetityUser.LastName ?? idetityUser.Email,
-                Roles = roles
-            };
+            var roles = roleManager.Roles;
+            var userRoles = await userManager.GetRolesAsync(idetityUser);
+
+
+            var model = new UserEditViewModel(idetityUser);
+            model.Roles = userRoles;
+            model.RolesList = roles.Select(r => new SelectListItem { Text = r.Name, Value = r.Name }).ToList();
 
             return View(model);
         }
 
         [HttpPost]
+        [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> Edit(UserEditViewModel model)
         {
-            //var model = await service.GetUserForEdit(id);
+            if (!ModelState.IsValid)
+            {
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
 
-            return View();
+            var user = await userManager.FindByIdAsync(model.Id);
+            var userRoles = await userManager.GetRolesAsync(user);
+
+
+            var removeUserRoles = await userManager.RemoveFromRolesAsync(user, userRoles);
+
+
+            var addUserToRoles = await userManager.AddToRolesAsync(user, model.Roles);
+            if (!addUserToRoles.Succeeded)
+            {
+                return RedirectToAction("Edit", new { id = model.Id });
+            }
+            // Исках да вкарам повече фунцконалност с промянва на Firstname, Lastname and ect, но нямма време!
+
+            return RedirectToAction(nameof(Index));
         }
 
         [HttpPost]
