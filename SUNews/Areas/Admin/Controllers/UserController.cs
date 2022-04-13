@@ -10,7 +10,7 @@
     using SUNews.Services.Contracts;
 
     [Area("Admin")]
-    [Authorize(Roles = "Administrator")]
+    [Authorize(Roles = "Administrator, Owner, Manager")]
     public class UserController : Controller
     {
         private readonly IRoleManager<IdentityRole> roleManager;
@@ -32,9 +32,6 @@
         }
 
         [HttpPost]
-        [Authorize(Roles = "Administrator")]
-        [Authorize(Roles = "Owner")]
-        [Authorize(Roles = "Manager")]
         [AutoValidateAntiforgeryToken]
         public async Task<IActionResult> CreateRole(string role)
         {
@@ -54,13 +51,13 @@
         }
 
         [Authorize(Roles = "Administrator, Owner, Manager")]
-        public async Task<IActionResult> GetAllUsers()
+        public async Task<IActionResult> Index()
         {
             var allUsers = userManager.Users.ToList();
 
             var model = allUsers.Select(u => new AllUsersViewModel(u)).ToList();
 
-            return View("Users", model);
+            return View(model);
         }
 
         //[Authorize(Roles = "Administrator")]
@@ -74,11 +71,22 @@
         //    return View("Users", allAdmins);
         //}
 
-        public async Task<IActionResult> DetailOfUser(string userId)
+        public async Task<IActionResult> Details(string id)
         {
-            //var users = await service.GetUsers();
+            var user = await userManager.FindByIdAsync(id);
 
-            return View();
+            if (user is null)
+            {
+                RedirectToAction(nameof(Index));
+            }
+
+            var userRoles = await userManager.GetRolesAsync(user);
+
+            var userViewModel = new UserDetailsViewModel(user);
+
+            userViewModel.Role = String.Join(", ", userRoles);
+
+            return View(userViewModel);
         }
 
         public async Task<IActionResult> Edit(string id)
@@ -104,46 +112,45 @@
             return View();
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> LockUser(string id)
+        {
+            var user = userManager.Users.Where(u => u.Id == id).FirstOrDefault();
+            if (user is null)
+            {
+                return this.RedirectToAction(nameof(Index));
+            }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> LockUser(UserModalModelView input)
-        //{
-        //    var user = userManager.Users.Where(u => u.Id == input.ID).FirstOrDefault();
-        //    if (user is null)
-        //    {
-        //        return this.RedirectToAction(nameof(Index));
-        //    }
+            var enableLockOutResult = await userManager.SetLockoutEnabledAsync(user, true);
+            if (!enableLockOutResult.Succeeded)
+            {
+                return this.RedirectToAction(nameof(Index));
+            }
+            var lockoutTimeResult = await userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(10));
+            if (!lockoutTimeResult.Succeeded)
+            {
+                return this.RedirectToAction(nameof(Index));
+            }
+            return this.RedirectToAction(nameof(Index));
+        }
 
-        //    var enableLockOutResult = await userManager.SetLockoutEnabledAsync(user, true);
-        //    if (!enableLockOutResult.Succeeded)
-        //    {
-        //        return this.RedirectToAction(nameof(Index));
-        //    }
-        //    var lockoutTimeResult = await userManager.SetLockoutEndDateAsync(user, DateTime.Today.AddYears(10));
-        //    if (!lockoutTimeResult.Succeeded)
-        //    {
-        //        return this.RedirectToAction(nameof(Index));
-        //    }
-        //    return this.RedirectToAction(nameof(Index));
-        //}
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> UnlockUser(string id)
+        {
+            var user = await userManager.FindByIdAsync(id);
+            if (user is null)
+            {
+                return this.RedirectToAction(nameof(Index));
+            }
 
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> UnlockUser(UserModalModelView input)
-        //{
-        //    var user = userManager.Users.Where(u => u.Id == input.ID).FirstOrDefault();
-        //    if (user is null)
-        //    {
-        //        return this.RedirectToAction(nameof(Index));
-        //    }
-
-        //    var lockoutTimeResult = await userManager.SetLockoutEndDateAsync(user, DateTime.Now);
-        //    if (!lockoutTimeResult.Succeeded)
-        //    {
-        //        return this.RedirectToAction(nameof(Index));
-        //    }
-        //    return this.RedirectToAction(nameof(Index));
-        //}
+            var lockoutTimeResult = await userManager.SetLockoutEndDateAsync(user, null);
+            if (!lockoutTimeResult.Succeeded)
+            {
+                return this.RedirectToAction(nameof(Index));
+            }
+            return this.RedirectToAction(nameof(Index));
+        }
     }
 }
