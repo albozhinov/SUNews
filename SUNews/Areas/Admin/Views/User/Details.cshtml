@@ -1,0 +1,72 @@
+﻿@model UserDetailsViewModel
+
+<!-- Horizontal Form -->
+<div class="col-md-6">
+    <div class="card card-primary">
+        <div class="card-header">
+            <h3 class="card-title">Profile</h3>
+        </div>
+        <!-- /.card-header -->
+        <!-- form start -->
+        <div class="card-body">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group row">
+                <label asp-for="UserName" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="UserName" class="form-control" disabled />
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="PhoneNumber" class="col-sm-3 col-form-label"></label>
+                <div class="col-sm-9">
+                    <input asp-for="PhoneNumber" class="form-control" placeholder="Phone number" aria-required="true" disabled />
+                    <span asp-validation-for="PhoneNumber" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="FirstName" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="FirstName" class="form-control" placeholder="First name" aria-required="true" disabled />
+                    <span asp-validation-for="FirstName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="LastName" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="LastName" class="form-control" placeholder="Last name" aria-required="true" disabled />
+                    <span asp-validation-for="LastName" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Role" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Role" class="form-control" placeholder="Role" aria-required="true" disabled />
+                    <span asp-validation-for="Role" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="Email" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="Email" class="form-control" placeholder="Email" aria-required="true" disabled />
+                    <span asp-validation-for="Email" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label asp-for="LockoutEnd" class="col-sm-2 col-form-label"></label>
+                <div class="col-sm-10">
+                    <input asp-for="LockoutEnd" class="form-control" placeholder="LockoutEnd" aria-required="true" disabled />
+                    <span asp-validation-for="LockoutEnd" class="text-danger"></span>
+                </div>
+            </div>
+            <div class="form-group row">
+                <div class="offset-sm-2 col-sm-10">
+                </div>
+            </div>
+        </div>
+        <!-- /.card-body -->
+        <div class="card-footer">
+            <button type="submit" class="btn btn-primary">Back</button>
+        </div>
+        <!-- /.card-footer -->
+    </div>
+</div>
