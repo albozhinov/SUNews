@@ -1,58 +1,135 @@
-﻿@model AllUsersViewModel
+﻿@using X.PagedList;
+@using X.PagedList.Mvc.Core
 
-<td>
-    <a>
-        @Model.Name
-    </a>
-</td>
-<td>
-    <ul class="list-inline">
-        <li class="list-inline-item">
-            @Model.Email
-        </li>
-    </ul>
-</td>
-<td class="project-state">
-    @{
-        if (Model.LockoutEnd is not null)
-        {
-            <span class="badge badge-danger">Locked</span>
-            <br />
-            <small> till @Model.LockoutEnd </small>
-        }
-        else
-        {
-            <span class="badge badge-success">Unlocked</span>
-        }
-    }
-</td>
-<td class="project-actions text-right">
-    <a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model.Id" class="btn btn-primary btn-sm">
-        <i class="fas fa-user"></i>
-        Profile
-    </a>
-    <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model.Id" class="btn btn-info btn-sm">
-        <i class="fas fa-user-edit"></i>
-        Edit
-    </a>
-    @{
-        if (Model.LockoutEnd is not null)
-        {
-            <form asp-area="Admin" asp-controller="User" asp-action="UnlockUser" asp-route-id="@Model.Id" method="post">
-                <button type="submit" class="btn btn-success btn-sm">
-                    <i class="fas fa-lock-open"></i>
-                    Unlock
-                </button>
-            </form>
-        }
-        else
-        {
-            <form asp-area="Admin" asp-controller="User" asp-action="LockUser" asp-route-id="@Model.Id" method="post">
-                <button type="submit" class="btn btn-danger btn-sm">
-                    <i class="fas fa-lock"></i>
-                    Lock
-                </button>
-            </form>
-        }
-    }
-</td>
+@model IPagedList<AllUsersViewModel>
+<!-- Site wrapper -->
+<div class="wrapper" id="content">
+    <!-- Navbar -->
+    <!-- /.navbar -->
+    <!-- Main Sidebar Container -->
+    <!-- Content Wrapper. Contains page content -->
+    <!-- Main content -->
+    <section class="content">
+        <!-- Default box -->
+        <div class="card">
+            <div class="card-header">
+                <h3 class="card-title"><i class="fas fa-users"></i> Users</h3>
+            </div>
+            <div class="card-body p-0">
+                <table class="table table-striped projects">
+                    <thead>
+                        <tr>
+                            <th style="width: 1%">
+                                #
+                            </th>
+                            <th style="width: 20%">
+                                Name
+                            </th>
+                            <th style="width: 30%">
+                                Email address
+                            </th>
+                            <th style="width: 8%" class="text-center">
+                                Status
+                            </th>
+                            <th style="width: 20%">
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @for (var i = 0; i < @Model.Count; i++)
+                        {
+                            <tr>
+                                <td>
+                                    @(i + 1)
+                                <td>
+                                    <a>
+                                            @Model[i].Name
+                                    </a>
+                                </td>
+                                <td>
+                                    <ul class="list-inline">
+                                        <li class="list-inline-item">
+                                                @Model[i].Email
+                                        </li>
+                                    </ul>
+                                </td>
+                                <td class="project-state">
+                                        @{
+                                            if (@Model[i].LockoutEnd is not null)
+                                            {
+                                            <span class="badge badge-danger">Locked</span>
+                                            <br />
+                                            <small> till @Model[i].LockoutEnd </small>
+                                            }
+                                            else
+                                            {
+                                            <span class="badge badge-success">Unlocked</span>
+                                            }
+                                        }
+                                </td>
+                                <td class="project-actions text-right">
+                                    <a asp-area="Admin" asp-controller="User" asp-action="Details" asp-route-id="@Model[i].Id" class="btn btn-primary btn-sm">
+                                        <i class="fas fa-user"></i>
+                                        Profile
+                                    </a>
+                                    <a asp-area="Admin" asp-controller="User" asp-action="Edit" asp-route-id="@Model[i].Id" class="btn btn-info btn-sm">
+                                        <i class="fas fa-user-edit"></i>
+                                        Edit
+                                    </a>
+                                        @{
+                                            if (@Model[i].LockoutEnd is not null)
+                                            {
+                                            <form asp-area="Admin" asp-controller="User" asp-action="UnlockUser" asp-route-id="@Model[i].Id" method="post">
+                                                <button type="submit" class="btn btn-success btn-sm">
+                                                    <i class="fas fa-lock-open"></i>
+                                                    Unlock
+                                                </button>
+                                            </form>
+                                            }
+                                            else
+                                            {
+                                            <form asp-area="Admin" asp-controller="User" asp-action="LockUser" asp-route-id="@Model[i].Id" method="post">
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-lock"></i>
+                                                    Lock
+                                                </button>
+                                            </form>
+                                            }
+                                        }
+                                </td>
+                            </tr>
+                        }
+                    </tbody>
+                </table>
+            </div>
+            <!-- /.card-body -->
+        </div>
+        <!-- /.card -->
+    </section>
+    <!-- /.content -->
+    <br />
+    <div class="card-footer">
+        <nav aria-label="Contacts Page Navigation">
+            @* Page @(Model.PageCount < Model.PageNumber ? 0 : Model.PageNumber) of @Model.PageCount*@
+            <ul class="pagination justify-content-center m-0" id="contentPager">   
+                <li class="page-item active"><a class="page-link" href="#">999</a></li>
+                <li class="page-item active">
+                    
+                        @Html.PagedListPager(
+                        Model, page => Url.Action("UserGrid", new { page })
+                        )
+                </li>
+
+            </ul>
+        </nav>
+
+
+
+
+
+    </div>
+
+</div>
+<!-- /.content-wrapper -->
+<!-- /.control-sidebar -->
+<!-- ./wrapper -->
