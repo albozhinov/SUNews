@@ -28,12 +28,11 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\SUNews.Services\SUNews.Services.csproj" />
+    <Folder Include="wwwroot\plugins\dropzone\min\" />
   </ItemGroup>
 
   <ItemGroup>
-    <Folder Include="Views\Author\" />
-    <Folder Include="wwwroot\plugins\dropzone\min\" />
+    <ProjectReference Include="..\SUNews.Services\SUNews.Services.csproj" />
   </ItemGroup>
 
 </Project>

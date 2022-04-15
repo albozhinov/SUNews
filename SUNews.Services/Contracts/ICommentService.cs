@@ -1,7 +1,7 @@
 ﻿namespace SUNews.Services.Contracts
 {
     using SUNews.Data.Models;
-    using SUNews.Services.Models.Comment;
+    using SUNews.Services.Models;
     using System.Threading.Tasks;
 
     public interface ICommentService
