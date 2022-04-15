@@ -126,6 +126,7 @@
                     Content = dbArticle.Content,
                     ImageUrl = dbArticle.ImageUrl,
                     AuthorName = dbArticle.AuthorName,
+                    Categories = dbArticle.Categories.Select(a => a.Category.Name).ToList(),
                     CategoriesList = selectListItems
                 };
 
