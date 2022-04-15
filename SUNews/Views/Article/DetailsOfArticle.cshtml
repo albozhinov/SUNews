@@ -2,33 +2,7 @@
 
 <div class="col-md-6" style="margin: auto">
     <!-- /.card-header -->
-    <div class="card-body">
-        <h1>@Model.DetailsOfArticlesServiceModel.Title</h1>
-        <img class="img-fluid pad" src="@Model.DetailsOfArticlesServiceModel.ImageUrl" alt="Photo">
-        <p></p>
-        <a asp-area="" asp-controller="Article" asp-action="LikeArticle" asp-route-id="@Model.DetailsOfArticlesServiceModel.Id" class="btn btn-dark btn-sm" id="like">
-            <i class="fas fa-thumbs-up"></i> Like
-        </a>
-        <span class="float-right text-muted">
-            <i class="fas fa-hashtag"></i> Tags :
-            @foreach (var category in @Model.DetailsOfArticlesServiceModel.Categories)
-            {
-                <a asp-area="" asp-controller="Category" asp-action="Category" asp-route-id="@category.CategoryId" class="btn btn-default btn-sm">
-                    @category.Category.Name
-                </a>
-            }
-            | <i class="fas fa-calendar-alt"></i> @Model.DetailsOfArticlesServiceModel.DateOfCreation.ToString("dd.MM.yyyy") | <i class="fas fa-thumbs-up"></i> @Model.DetailsOfArticlesServiceModel.Likes likes | <i class="fas fa-comment-alt"></i> @Model.DetailsOfArticlesServiceModel.Comments.Count() comments
-        </span>
-        <br />
-        <a href="@Model.DetailsOfArticlesServiceModel.AuthorName" class="float-right text-dark" id="authorArticles"> @Model.DetailsOfArticlesServiceModel.AuthorName </a>
-        <span class="float-right text-muted"><i class="fas fa-feather-alt"></i> Author: &nbsp</span>
-        <div class="articleContent">
-            <br />
-            <p>
-                @Model.DetailsOfArticlesServiceModel.Content
-            </p>
-        </div>
-    </div>
+    <partial name="_ArticleImage" model="@Model.DetailsOfArticlesServiceModel" />
     <!-- /.card-body -->
     <div class="card-footer card-comments">
 
@@ -60,18 +34,4 @@
 @section scripts {
 <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.13.2/js/bootstrap-select.min.js"></script>
 <partial name="_ValidationScriptsPartial" />
-
-<script>
-    $(document).on("click", "#like a", function () {
-        $.ajax({
-            url: $(this).attr("href"),
-            type: 'GET',
-            cache: false,
-            success: function (result) {
-                $('main').html(result);
-            }
-        });
-        return false;
-    });
-</script>
 }
