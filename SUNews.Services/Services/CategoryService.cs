@@ -96,25 +96,6 @@
                                                      })
                                                      .ToListAsync();
 
-
-
-                                                        //.Where(c => c.Id == isValidId.Item2)
-                                                        //.Include(c => c.Articles)
-                                                        //    .ThenInclude(ac => ac.Article)
-                                                        //    .ThenInclude(a => a.Comments)
-                                                        //.Include(c => c.Articles)
-                                                        //    .ThenInclude(ac => ac.Article)
-                                                        //    .ThenInclude(a => a.Author)
-                                                        //.Select(c => c.Articles.Select(a => new ArticleServiceModel()
-                                                        //{
-                                                        //    Id = a.ArticleId.ToString(),
-                                                        //    AuthorName = a.Article.Author.Name,
-                                                        //    Title = a.Article.Title,
-                                                        //    Likes = a.Article.LikeCount ?? 0,
-                                                        //    CommentsCount = a.Article.Comments.Count,
-                                                        //}))
-                                                        //.FirstOrDefaultAsync();
-
             if (articlesByCategory is null)
                 throw new ArgumentNullException(CategoryNotFound);
 
