@@ -30,28 +30,45 @@
             var articles = await articleService.GetAllArticlesAsync();
 
             return View(articles);
-        }      
+        }
 
         public IActionResult AllArticles()
         {
-            return RedirectToAction("Index", "Article");
+            return RedirectToAction(nameof(Index));
         }
 
         [Authorize]
         public async Task<IActionResult> DetailsOfArticle(string id)
         {
-            var article = await articleService.DetailsOfArticleAsync(id);
-            var comment = new CreateCommentViewModel();
+            try
+            {
+                var article = await articleService.DetailsOfArticleAsync(id);
+                var comment = new CreateCommentViewModel();
 
-            return View(new ArticleAndCommentsViewModel() { DetailsOfArticlesServiceModel = article, CreateCommentViewModel = comment });
+                return View(new ArticleAndCommentsViewModel() { DetailsOfArticlesServiceModel = article, CreateCommentViewModel = comment });
+            }
+            catch (Exception)
+            {
+
+                return RedirectToAction(nameof(Index));
+
+            }
+
         }
 
         public async Task<IActionResult> LikeArticle(string id)
         {
-            var loggedUser = await userManager.GetUserAsync(User);
-            var article = await articleService.LikeArticleAsync(id, loggedUser.Id);
+            try
+            {
+                var loggedUser = await userManager.GetUserAsync(User);
+                var article = await articleService.LikeArticleAsync(id, loggedUser.Id);
 
-            return RedirectToAction("DetailsOfArticle", new { Id = id });
+                return RedirectToAction("DetailsOfArticle", new { Id = id });
+            }
+            catch (Exception)
+            {
+                return NotFound();
+            }
         }
     }
 }
