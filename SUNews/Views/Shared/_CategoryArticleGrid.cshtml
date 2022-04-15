@@ -1,0 +1,24 @@
+﻿@model IEnumerable<ArticleServiceModel>
+
+@{
+    int number = 1;
+    foreach (var article in @Model)
+    {
+        <tr>
+            <td style="width: 8%">
+                @number
+            </td>
+            <td class="mailbox-star" style="width: 8%">
+                <a asp-area="" asp-controller="Article" asp-action="DetailsOfArticle" asp-route-id="@article.Id">
+                    <i class="fas fa-book-open"></i>
+                </a>
+            </td>
+            <td class="mailbox-name" style="width: 10%"><a href="#">@article.AuthorName</a></td>
+            <td class="mailbox-subject" style="width: 30%">
+                @article.Title
+            </td>
+        </tr>
+        number++;
+    }
+}
+
