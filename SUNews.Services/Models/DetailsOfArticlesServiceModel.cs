@@ -1,8 +1,7 @@
-﻿using SUNews.Data.Models;
-using SUNews.Services.Models.Comment;
-
-namespace SUNews.Services.Models
+﻿namespace SUNews.Services.Models
 {
+    using SUNews.Data.Models;
+
     public class DetailsOfArticlesServiceModel
     {
         public DetailsOfArticlesServiceModel()

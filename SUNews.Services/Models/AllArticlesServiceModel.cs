@@ -1,7 +1,7 @@
-﻿using SUNews.Data.Models;
-
-namespace SUNews.Services.Models
+﻿namespace SUNews.Services.Models
 {
+    using SUNews.Data.Models;
+
     public class AllArticlesServiceModel
     {
         public AllArticlesServiceModel()

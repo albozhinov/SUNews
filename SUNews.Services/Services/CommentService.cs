@@ -4,7 +4,7 @@
     using SUNews.Data.Models;
     using SUNews.Data.Repository;
     using SUNews.Services.Contracts;
-    using SUNews.Services.Models.Comment;
+    using SUNews.Services.Models;
     using SUNews.Services.Providers;
     using System;
     using System.Collections.Generic;

@@ -1,4 +1,4 @@
-﻿namespace SUNews.Services.Models.Comment
+﻿namespace SUNews.Services.Models
 {
     using SUNews.Data.Models;
 

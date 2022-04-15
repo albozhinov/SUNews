@@ -1,9 +1,14 @@
-﻿using SUNews.Data.Models;
-
-namespace SUNews.Services.Models
+﻿namespace SUNews.Services.Models
 {
+    using SUNews.Data.Models;
+
     public class CategoryServiceModel
     {
+        public CategoryServiceModel()
+        {
+
+        }
+
         public CategoryServiceModel(Category model)
         {
             Id = model.Id;
@@ -22,6 +27,8 @@ namespace SUNews.Services.Models
         public Guid Id { get; init; }
 
         public string Name { get; init; }
+
+        public int ArticlesCount { get; set; }
 
         public ICollection<AllArticlesServiceModel> Articles { get; set; } = new List<AllArticlesServiceModel>();
 
