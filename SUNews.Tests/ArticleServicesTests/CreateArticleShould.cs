@@ -1,22 +1,21 @@
-﻿using Microsoft.EntityFrameworkCore;
-using Microsoft.VisualStudio.TestTools.UnitTesting;
-using MockQueryable.Moq;
-using Moq;
-using SUNews.Data.Context;
-using SUNews.Data.Models;
-using SUNews.Data.Repository;
-using SUNews.Services.Providers;
-using SUNews.Services.Services;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-using static SUNews.Tests.IncorrectData;
-
-namespace SUNews.Tests.ArticleServicesTests
+﻿namespace SUNews.Tests.ArticleServicesTests
 {
+    using Microsoft.EntityFrameworkCore;
+    using Microsoft.VisualStudio.TestTools.UnitTesting;
+    using MockQueryable.Moq;
+    using Moq;
+    using SUNews.Data.Context;
+    using SUNews.Data.Models;
+    using SUNews.Data.Repository;
+    using SUNews.Services.Providers;
+    using SUNews.Services.Services;
+    using System;
+    using System.Collections.Generic;
+    using System.Linq;
+    using System.Threading.Tasks;
+
+    using static SUNews.Tests.IncorrectData;
+
     [TestClass]
     public class CreateArticleShould
     {
@@ -56,7 +55,7 @@ namespace SUNews.Tests.ArticleServicesTests
 
         [TestMethod]
         [DataRow("Valid Title", "Valid Content", "Valid Url", "Valid AuthorName")]
-        public async Task ThrowArgumentException_WhenCategoriesArgIncorrect(string title,
+        public async Task ThrowArgumentNullException_WhenCategoriesArgIncorrect(string title,
                                                                             string content,
                                                                             string imageUrl,
                                                                             string authorName)
@@ -134,10 +133,10 @@ namespace SUNews.Tests.ArticleServicesTests
             {
                 Title = "TestTitle",
                 Content = content,
-                ImageUrl = imageUrl,                
+                ImageUrl = imageUrl,
             };
 
-            var categories = new List<Category>() 
+            var categories = new List<Category>()
             {
                 new Category()
                 {
@@ -259,14 +258,14 @@ namespace SUNews.Tests.ArticleServicesTests
             var sut = new ArticleService(repositoryMock.Object, validatorServiceStub);
 
             // Act
-            var articleCreateSut = await sut.CreateArticleAsync(title, content, imageUrl, authorName, new List<string>() { "ValidCategory"});
+            var articleCreateSut = await sut.CreateArticleAsync(title, content, imageUrl, authorName, new List<string>() { "ValidCategory" });
 
             // Assert
             Assert.IsTrue(articleCreateSut.Title == title.ToUpper());
             Assert.IsTrue(articleCreateSut.Content == content);
             Assert.IsTrue(articleCreateSut.ImageUrl == imageUrl);
             Assert.IsTrue(articleCreateSut.Categories.Count() == 1);
-            repositoryMock.Verify(mm => mm.SaveAsync(), Times.Once);
+            repositoryMock.Verify(art => art.SaveAsync(), Times.Once);
         }
     }
 }

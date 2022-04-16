@@ -13,13 +13,14 @@
     using System.Threading.Tasks;
 
     [TestClass]
-    public class DeleteArticleShould
+    public class DetailsOfArticleShould
     {
         [DataTestMethod]
         [DataRow(null)]
         [DataRow("")]
-        [DataRow("  ")]
-        public async Task ThrowArgumentException_WhenArgumentsAreNull(string articleId)
+        [DataRow(" ")]
+        [DataRow("Invalid-GUID")]
+        public async Task ThrowArgumentNullException_WhenArgumentIsInvalid(string articleId)
         {
             // Arrange
             var repositoryStub = new Mock<IRepository>();
@@ -28,27 +29,12 @@
             var sut = new ArticleService(repositoryStub.Object, validatorServiceStub);
 
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await sut.DeleteArticleAsync(articleId));
-        }
-
-        [DataTestMethod]
-        [DataRow("Not-valid-GUID")]
-        public async Task ThrowArgumentException_WhenArgumentsAreIncorrect(string articleId)
-        {
-            // Arrange
-            var repositoryStub = new Mock<IRepository>();
-            var validatorServiceStub = new ValidatorService();
-
-
-            var sut = new ArticleService(repositoryStub.Object, validatorServiceStub);
-
-            // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await sut.DeleteArticleAsync(articleId));
+            await Assert.ThrowsExceptionAsync<ArgumentNullException>(async () => await sut.DetailsOfArticleAsync(articleId));
         }
 
         [DataTestMethod]
         [DataRow("e4cf95e0-0b33-42f9-a81d-910bc305cb11")]
-        public async Task ThrowArgumentException_WhenArticleNotFound(string articleId)
+        public async Task ThrowArgumentException_WhenArticleNotExists(string articleId)
         {
             // Arrange
             var repositoryStub = new Mock<IRepository>();
@@ -66,14 +52,14 @@
 
             var sut = new ArticleService(repositoryStub.Object, validatorServiceStub);
 
-
             // Act & Assert
-            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => await sut.DeleteArticleAsync(articleId));
+            await Assert.ThrowsExceptionAsync<ArgumentException>(async () => await sut.DetailsOfArticleAsync(articleId));
         }
+
 
         [DataTestMethod]
         [DataRow("e4cf95e0-0b33-42f9-a81d-910bc305cb11")]
-        public async Task DeleteArticle_WhenArgumentIsCorrect(string articleId)
+        public async Task ReturnArticle_WhenArticleExists(string articleId)
         {
             // Arrange
             var repositoryStub = new Mock<IRepository>();
@@ -81,11 +67,11 @@
 
             var article = new Article()
             {
-                Id = Guid.Parse(articleId),
-                Title = "TestTitle",
+                Id = Guid.Parse("e4cf95e0-0b33-42f9-a81d-910bc305cb11"),
+                Title = "TEST TITLE",
                 Content = "Valid content is between 20 and 1000 characters!",
                 ImageUrl = "Valid URL",
-                IsDeleted = false,
+                Author = new Author() { Name = "Goshecneto"}
             };
 
             repositoryStub.Setup(a => a.All<Article>()).Returns(new List<Article>() { article }.AsQueryable().BuildMock());
@@ -93,11 +79,14 @@
             var sut = new ArticleService(repositoryStub.Object, validatorServiceStub);
 
             // Act
-            await sut.DeleteArticleAsync(articleId);
+            var articleDetails = await sut.DetailsOfArticleAsync(articleId);
 
             // Assert
-            repositoryStub.Verify(art => art.Update(article), Times.Once);
-            repositoryStub.Verify(art => art.SaveAsync(), Times.Once);
+            Assert.IsTrue(articleDetails.Title == article.Title);
+            Assert.IsTrue(articleDetails.Content == article.Content);
+            Assert.IsTrue(articleDetails.ImageUrl == article.ImageUrl);
         }
+
+
     }
 }
