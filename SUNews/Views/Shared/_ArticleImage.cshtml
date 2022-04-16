@@ -11,14 +11,14 @@
             <i class="fas fa-hashtag"></i> Tags :
             @foreach (var category in @Model.Categories)
             {
-                <a asp-area="" asp-controller="Category" asp-action="Category" asp-route-id="@category.CategoryId" class="btn btn-default btn-sm">
+                <a asp-area="" asp-controller="Category" asp-action="Index" class="btn btn-default btn-sm">
                     @category.Category.Name
                 </a>
             }
             | <i class="fas fa-calendar-alt"></i> @Model.DateOfCreation.ToString("dd.MM.yyyy") | <i class="fas fa-thumbs-up"></i> @Model.Likes likes | <i class="fas fa-comment-alt"></i> @Model.Comments.Count() comments
         </span>
         <br />
-        <a href="@Model.AuthorName" class="float-right text-dark" id="authorArticles"> @Model.AuthorName </a>
+        <a href="#" class="float-right text-dark" id="authorArticles"> @Model.AuthorName </a>
         <span class="float-right text-muted"><i class="fas fa-feather-alt"></i> Author: &nbsp</span>
         <div class="articleContent">
             <br />
