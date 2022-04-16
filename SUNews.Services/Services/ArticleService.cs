@@ -51,10 +51,11 @@
                     Name = authorName,
                 };
 
+                validator.ValidateModel(author);
+
                 await repository.AddAsync(author);
             }
 
-            validator.ValidateModel(author);
 
             var existsCategories = await repository.All<Category>()
                                                 .Where(c => categories.Contains(c.Name))
@@ -142,12 +143,12 @@
                                      string authorName,
                                      ICollection<string> categories)
         {
+            validator.NullOrWhiteSpacesCheck(articleId);
             validator.NullOrWhiteSpacesCheck(title);
             validator.NullOrWhiteSpacesCheck(content);
             validator.NullOrWhiteSpacesCheck(imageUrl);
             validator.NullOrWhiteSpacesCheck(authorName);
             validator.NullOrEmptyCollection(categories);
-            validator.NullOrWhiteSpacesCheck(articleId);
 
 
             (bool, Guid) isValidId = validator.TryParseGuid(articleId);
@@ -170,6 +171,8 @@
                 {
                     Name = authorName,
                 };
+
+                validator.ValidateModel(author);
 
                 await repository.AddAsync(author);
             }
