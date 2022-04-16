@@ -50,12 +50,18 @@
                 {
                     Name = authorName,
                 };
-                
+
+                await repository.AddAsync(author);
             }
+
+            validator.ValidateModel(author);
 
             var existsCategories = await repository.All<Category>()
                                                 .Where(c => categories.Contains(c.Name))
                                                 .ToListAsync();
+
+            if (existsCategories.Count == 0)
+                throw new ArgumentException("Categories are not found.");
 
             var article = new Article()
             {
@@ -63,6 +69,7 @@
                 Content = content,
                 ImageUrl = imageUrl,
                 AuthorId = author.Id,
+                Author = author,
                 Categories = existsCategories.Select(c => new ArticleCategory()
                 {
                     CategoryId = c.Id,
@@ -76,7 +83,6 @@
             validator.ValidateModel(article);
 
             await repository.AddAsync(article);
-            await repository.AddAsync(author);
             await repository.SaveAsync();
 
             return new DetailsOfArticlesServiceModel(article);
@@ -248,7 +254,7 @@
 
                 var userToAdd = new Like()
                 {
-                    UserId = userId,                    
+                    UserId = userId,
                 };
 
                 article.UserLikes.Add(userToAdd);
