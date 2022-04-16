@@ -9,6 +9,8 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SUNews.Data", "SUNews.Data\
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "SUNews.Services", "SUNews.Services\SUNews.Services.csproj", "{AFF0D8C5-000A-49FF-8B3D-3841A8F7BE95}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SUNews.Tests", "SUNews.Tests\SUNews.Tests.csproj", "{92BA459F-B731-4B36-8E87-DA890D559F47}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,10 @@ Global
 		{AFF0D8C5-000A-49FF-8B3D-3841A8F7BE95}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{AFF0D8C5-000A-49FF-8B3D-3841A8F7BE95}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{AFF0D8C5-000A-49FF-8B3D-3841A8F7BE95}.Release|Any CPU.Build.0 = Release|Any CPU
+		{92BA459F-B731-4B36-8E87-DA890D559F47}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{92BA459F-B731-4B36-8E87-DA890D559F47}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{92BA459F-B731-4B36-8E87-DA890D559F47}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{92BA459F-B731-4B36-8E87-DA890D559F47}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
