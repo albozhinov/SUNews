@@ -23,16 +23,20 @@
 
         public async Task<IEnumerable<CategoryServiceModel>> AllCategories()
         {
-            return await repository.All<Category>()
+            var categories = await repository.All<Category>()
                                    .Include(c => c.Articles)
-                                   .Select(c => new CategoryServiceModel() 
-                                   { 
-                                       Id = c.Id,
-                                       Name = c.Name,
-                                       ArticlesCount = c.Articles.Count
-                                   })
+                                    .ThenInclude(a => a.Article)                                   
                                    .ToListAsync();
 
+
+            var model = categories.Select(c => new CategoryServiceModel()
+            {
+                Id = c.Id,
+                Name = c.Name,
+                ArticlesCount = c.Articles.Where(a => !a.Article.IsDeleted).Count()
+            });
+
+            return model;
         }
 
         public async Task<string> CreateCategoryAsync(string categoryName)
