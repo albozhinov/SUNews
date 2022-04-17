@@ -9,5 +9,8 @@
 
         public const string InvalidURL = "translate.google.bg/?sl=en&tl=bg&text=Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20than%201000%20characters!Not%20Valid%20content%20it%27s%20more%20t";
 
+
+        public const string InvalidCommentText = "Comment text must be between 6 and 150 characters! Comment text must be between 6 and 150 characters! Comment text must be between 6 and 150 characters!";
+
     }
 }
